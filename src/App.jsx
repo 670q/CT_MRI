@@ -150,18 +150,41 @@ const MedicalProtocolsApp = () => {
             "أضف GG-Hel وحوله من P إلى A.",
             "التوقيت: Arterial = 18s | Venous = 70s (إذا طلب).",
           ],
-          injector: { flow: "5.0", volume: "100" }
+          injector: { flow: "5.0", volume: "100", note: "الكمية تعتمد على وزن المريض" }
         },
         {
           name: "Pan CT (Head Part)",
           source: "ملفات حنين",
           position: "Head First",
+          center: "Mid thigh",
           contrast: false,
           steps: [
             "بروتوكول: Brain Routine.",
             "End: 1000 أو 1100.",
-            "التخطيط: من Vertex إلى أسفل Occipital.",
-            "بعد انتهاء المسح اختر Quit Exam للانتقال للفقرات."
+            "التخطيط والمسح الأول: من الكلمة (Vertex) إلى أسفل الرأس (Occipital).",
+            "بعد انتهاء المسح اختر Quit Exam للانتقال للفقرات العنقيه."
+          ],
+          notes: [
+            "Normal creatine: 0.6 to 1.3",
+            "إذا كان الكرياتينين مرتفع: تواصل مع الطبيب ويجب توقيع المريض لورقة High risk",
+            "إذا كان مريض ربو وحساسية: يعطى كورتيزون من قبل الممرض"
+          ]
+        }
+      ]
+    },
+    neck: {
+      title: "الرقبة (CT Neck/Cervical)",
+      exams: [
+        {
+          name: "Pan CT (Cervical Spine Part)",
+          source: "ملفات حنين",
+          contrast: false,
+          steps: [
+            "بعد الانتهاء من تصوير الرأس واختيار Quit exam، نعود للبحث.",
+            "اختر بروتوكول Cervical spin.",
+            "قم بالتخطيط والتأكد من تغطية الفقرات المطلوبة.",
+            "قم بالمسح (Scan) ثم اختر Quit exam للانتقال لتصوير البطن.",
+            "ملاحظة: البروتوكول يحتوي على وقت انتظار 70 ثانية جاهز للصبغة."
           ]
         }
       ]
@@ -173,30 +196,54 @@ const MedicalProtocolsApp = () => {
           name: "PE (Pulmonary Embolism)",
           source: "ملفات حنين",
           position: "Feet First",
-          center: "Inner line on Neck",
+          center: "Inner line on Neck (The inner line rests in the neck)",
           contrast: true,
           steps: [
-            "بروتوكول: Chest.",
-            "أضف مرتين GG-Hel.",
+            "اختر بروتوكول: Chest.",
+            "أضف مرتين GG-Hel للتخطيط.",
             "الـ GG-Hel الثانية: الوقت 13 ثانية.",
+            "نبدأ وناخذ الـ Scan الأول.",
             "التخطيط: من قمة الرئة (Apex) إلى الحجاب الحاجز (Diaphragm).",
-            "Axial 1: Standard (Thickness 1).",
-            "Axial 2: Body (Thickness 1)."
+            "نعدل الـ Multi view للصور الناتجة:",
+            "Axial 1: نتركه كما هو (Standard).",
+            "Axial 2: نجعله (Body) ونعدل السماكة (Thickness) إلى 1."
           ],
           injector: { flow: "5.0", volume: "120" }
         }
       ]
     },
     abdomen: {
-      title: "البطن (CT Abdomen)",
+      title: "البطن والحوض (CT Abdomen/Pelvis)",
       exams: [
         {
           name: "Tri-Phase (Liver)",
           source: "ملفات حنين",
+          position: "Feet First",
+          center: "Mid of chest",
           contrast: true,
           steps: [
             "بروتوكول: Abdominal (-).",
-            "المراحل: Arterial (25s) -> Venous (70s) -> Delayed (3 min)."
+            "أضف GG-Hel وحوله من P إلى A.",
+            "المراحل:",
+            "Arterial (25s)",
+            "Venous (70s)",
+            "Delayed (3 minutes)"
+          ],
+          injector: { flow: "4.5", volume: "100" }
+        },
+        {
+          name: "Renal Cases",
+          source: "ملفات حنين",
+          position: "Feet First",
+          center: "Mid of chest",
+          contrast: true,
+          steps: [
+            "بروتوكول: Abdominal (-).",
+            "أضف GG-Hel وحوله من P إلى A.",
+            "المراحل:",
+            "Arterial (25s)",
+            "Venous (70s)",
+            "Delayed (15 minutes)"
           ],
           injector: { flow: "4.5", volume: "100" }
         },
@@ -206,25 +253,40 @@ const MedicalProtocolsApp = () => {
           contrast: true,
           steps: [
             "بروتوكول: Abdominal with contrast.",
-            "التخطيط: من الأكتاف إلى أسفل العانة (Pubic symphysis).",
+            "التخطيط: من فوق الأكتاف (Above shoulders) إلى أسفل العانة (Pubic symphysis).",
             "يوجد Wait جاهز (70 ثانية)."
           ],
-          injector: { flow: "3.5", volume: "100", note: "مخفض لحالات Pan CT" }
+          injector: { flow: "3.5", volume: "100", note: "تدفق مخفض لحالات Pan CT (مثلاً 3.5 بدلاً عن المعتاد)" }
         }
       ]
     },
     limbs: {
-      title: "الأطراف (Limbs)",
+      title: "الأطراف (CT Limbs)",
       exams: [
         {
-          name: "Routine Upper/Lower",
+          name: "Upper Limbs (Hands, Forearm, Elbow, Humerus, Shoulders)",
           source: "ملفات حنين",
-          position: "Head/Feet First (حسب العضو)",
-          center: "قبل العضو المطلوب بالـ Line الداخلي",
+          position: "Head First",
+          center: "قبل العضو المطلوب بالـ Inner Line",
+          contrast: false,
           steps: [
-            "اختر البروتوكول (مثلاً Hand Left).",
+            "اختر البروتوكول المطلوب (مثلاً Hand Left).",
             "السنتر يكون قبل العضو المطلوب.",
-            "عدد الصور المطلوب عادة 30."
+            "التصوير يكون على العضو المطلوب بالكامل.",
+            "يطلب عادة في الأطراف صور 3D."
+          ]
+        },
+        {
+          name: "Lower Limbs (Feet, Legs, Knees, Femoral)",
+          source: "ملفات حنين",
+          position: "Feet First",
+          center: "قبل العضو المطلوب بالـ Inner Line",
+          contrast: false,
+          steps: [
+            "اختر البروتوكول المطلوب (مثلاً Foot Left).",
+            "السنتر يكون قبل العضو المطلوب.",
+            "التصوير يكون على العضو المطلوب بالكامل.",
+            "يطلب عادة في الأطراف صور 3D."
           ]
         }
       ]
