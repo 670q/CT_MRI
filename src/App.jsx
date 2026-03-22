@@ -139,6 +139,31 @@ const MedicalProtocolsApp = () => {
       title: "الرأس والدماغ (CT Brain)",
       exams: [
         {
+          name: "CTA (Medial of Chest + Neck + Brain)",
+          source: "تحديثات المستشفى",
+          position: "Head First",
+          center: "منتصف الصدر تقريباً (Middle of chest)",
+          contrast: true,
+          steps: [
+            "اختر بروتوكول Brain Routine وزد End إلى 500.",
+            "Scan Range: من أعلى الرأس إلى أسفل قوس الأبهر.",
+            "التوقيت (Timing): 19 sec."
+          ],
+          injector: { flow: "4.5 - 5", volume: "120" }
+        },
+        {
+          name: "CTV (Brain)",
+          source: "تحديثات المستشفى",
+          position: "Head First",
+          center: "الرأس",
+          contrast: true,
+          steps: [
+            "التصوير الوريدي للدماغ (Venous Phase).",
+            "التوقيت (Timing): 70 sec."
+          ],
+          injector: { flow: "4.5", volume: "100" }
+        },
+        {
           name: "Brain Angiogram",
           source: "ملفات حنين",
           position: "Head First",
@@ -153,7 +178,7 @@ const MedicalProtocolsApp = () => {
           injector: { flow: "5.0", volume: "100", note: "الكمية تعتمد على وزن المريض" }
         },
         {
-          name: "Pan CT (Head Part)",
+          name: "Brain Pan CT (Head Part)",
           source: "ملفات حنين",
           position: "Head First",
           center: "Mid thigh",
@@ -176,15 +201,24 @@ const MedicalProtocolsApp = () => {
       title: "الرقبة (CT Neck/Cervical)",
       exams: [
         {
-          name: "Pan CT (Cervical Spine Part)",
+          name: "CT Neck With Contrast",
+          source: "تحديثات المستشفى",
+          position: "Head First",
+          center: "الرقبة",
+          contrast: true,
+          steps: [
+            "التصوير بوجود الصبغة.",
+            "التوقيت (Timing): 70 sec."
+          ],
+          injector: { flow: "3.5", volume: "100" }
+        },
+        {
+          name: "Cervical Spine",
           source: "ملفات حنين",
           contrast: false,
           steps: [
-            "بعد الانتهاء من تصوير الرأس واختيار Quit exam، نعود للبحث.",
             "اختر بروتوكول Cervical spin.",
-            "قم بالتخطيط والتأكد من تغطية الفقرات المطلوبة.",
-            "قم بالمسح (Scan) ثم اختر Quit exam للانتقال لتصوير البطن.",
-            "ملاحظة: البروتوكول يحتوي على وقت انتظار 70 ثانية جاهز للصبغة."
+            "قم بالتخطيط والتأكد من تغطية الفقرات المطلوبة."
           ]
         }
       ]
@@ -193,28 +227,52 @@ const MedicalProtocolsApp = () => {
       title: "الصدر (CT Chest)",
       exams: [
         {
+          name: "Chest With Contrast",
+          source: "تحديثات المستشفى",
+          position: "Feet First",
+          center: "منتصف الصدر",
+          contrast: true,
+          steps: [
+            "المراحل والتوقيت:",
+            "- Arterial phase (A) at 25 sec.",
+            "- Venous phase (V) at 70 sec."
+          ],
+          injector: { flow: "3.5", volume: "100" }
+        },
+        {
           name: "PE (Pulmonary Embolism)",
-          source: "ملفات حنين",
+          source: "تحديثات المستشفى",
           position: "Feet First",
           center: "Inner line on Neck (The inner line rests in the neck)",
           contrast: true,
           steps: [
             "اختر بروتوكول: Chest.",
-            "أضف مرتين GG-Hel للتخطيط.",
-            "الـ GG-Hel الثانية: الوقت 13 ثانية.",
-            "نبدأ وناخذ الـ Scan الأول.",
             "التخطيط: من قمة الرئة (Apex) إلى الحجاب الحاجز (Diaphragm).",
+            "التوقيت (Timing): 13 sec.",
             "نعدل الـ Multi view للصور الناتجة:",
             "Axial 1: نتركه كما هو (Standard).",
             "Axial 2: نجعله (Body) ونعدل السماكة (Thickness) إلى 1."
           ],
-          injector: { flow: "5.0", volume: "120" }
+          injector: { flow: "4.5 to 5", volume: "120" }
         }
       ]
     },
     abdomen: {
       title: "البطن والحوض (CT Abdomen/Pelvis)",
       exams: [
+        {
+          name: "Abdomen With Contrast",
+          source: "تحديثات المستشفى",
+          position: "Feet First",
+          center: "Mid of chest",
+          contrast: true,
+          steps: [
+            "المراحل والتوقيت:",
+            "- Arterial phase (A) at 35 sec.",
+            "- Venous phase (V) at 70 sec."
+          ],
+          injector: { flow: "2.5", volume: "100", note: "Rate of flow : 2.5 / 3 / 3.5 / 4" }
+        },
         {
           name: "Tri-Phase (Liver)",
           source: "ملفات حنين",
@@ -246,17 +304,6 @@ const MedicalProtocolsApp = () => {
             "Delayed (15 minutes)"
           ],
           injector: { flow: "4.5", volume: "100" }
-        },
-        {
-          name: "Pan CT (Abdomen Part)",
-          source: "ملفات حنين",
-          contrast: true,
-          steps: [
-            "بروتوكول: Abdominal with contrast.",
-            "التخطيط: من فوق الأكتاف (Above shoulders) إلى أسفل العانة (Pubic symphysis).",
-            "يوجد Wait جاهز (70 ثانية)."
-          ],
-          injector: { flow: "3.5", volume: "100", note: "تدفق مخفض لحالات Pan CT (مثلاً 3.5 بدلاً عن المعتاد)" }
         }
       ]
     },
@@ -264,30 +311,63 @@ const MedicalProtocolsApp = () => {
       title: "الأطراف (CT Limbs)",
       exams: [
         {
-          name: "Upper Limbs (Hands, Forearm, Elbow, Humerus, Shoulders)",
-          source: "ملفات حنين",
+          name: "Upper Limbs With Contrast",
+          source: "تحديثات المستشفى",
           position: "Head First",
           center: "قبل العضو المطلوب بالـ Inner Line",
-          contrast: false,
+          contrast: true,
           steps: [
-            "اختر البروتوكول المطلوب (مثلاً Hand Left).",
             "السنتر يكون قبل العضو المطلوب.",
-            "التصوير يكون على العضو المطلوب بالكامل.",
-            "يطلب عادة في الأطراف صور 3D."
-          ]
+            "التصوير يكون على العضو المطلوب بالكامل واستعراض 3D لاحقاً.",
+            "المراحل والتوقيت للصبغة:",
+            "- Arterial phase (A) at 25 sec.",
+            "- Venous phase (V) at 90 sec."
+          ],
+          injector: { flow: "3.5", volume: "100" }
         },
         {
-          name: "Lower Limbs (Feet, Legs, Knees, Femoral)",
-          source: "ملفات حنين",
+          name: "Lower Limbs With Contrast",
+          source: "تحديثات المستشفى",
           position: "Feet First",
+          center: "قبل العضو المطلوب بالـ Inner Line",
+          contrast: true,
+          steps: [
+            "السنتر يكون قبل العضو المطلوب.",
+            "التصوير يكون على العضو المطلوب بالكامل.",
+            "المراحل والتوقيت للصبغة:",
+            "- Arterial phase (A) at 20 sec."
+          ],
+          injector: { flow: "3.5", volume: "100" }
+        },
+        {
+          name: "Limbs Without Contrast",
+          source: "ملفات حنين",
+          position: "حسب الطرف",
           center: "قبل العضو المطلوب بالـ Inner Line",
           contrast: false,
           steps: [
-            "اختر البروتوكول المطلوب (مثلاً Foot Left).",
+            "اختر البروتوكول المطلوب.",
             "السنتر يكون قبل العضو المطلوب.",
             "التصوير يكون على العضو المطلوب بالكامل.",
             "يطلب عادة في الأطراف صور 3D."
           ]
+        }
+      ]
+    },
+    pan_scan: {
+      title: "المسح الشامل (Pan Scan)",
+      exams: [
+        {
+          name: "Pan Scan Protocol",
+          source: "تحديثات المستشفى",
+          position: "يعتمد على الخطوة",
+          center: "متغير",
+          contrast: true,
+          steps: [
+            "**Step 1:** Brain + Neck (Pre-contrast / بدون صبغة).",
+            "**Step 2:** Chest + Abdomen + Pelvis (Pre and Post-contrast / قبل وبعد الصبغة)."
+          ],
+          injector: { flow: "3.5", volume: "100" }
         }
       ]
     }
@@ -394,7 +474,14 @@ const MedicalProtocolsApp = () => {
              <div className={`font-bold text-2xl dir-ltr ${activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'}`}>{flow}</div>
           </div>
         </div>
-        {note && <div className={`mt-4 pt-2 border-t text-xs text-center px-4 ${activeMode === 'ct' ? 'border-blue-200/30 text-blue-800' : 'border-purple-200/30 text-purple-800'}`}>{note}</div>}
+        <div className={`mt-4 pt-4 border-t text-xs text-center px-4 flex flex-col items-center gap-2 ${activeMode === 'ct' ? 'border-blue-200/30 text-blue-800' : 'border-purple-200/30 text-purple-800'}`}>
+          {note && <div className="font-medium bg-white/50 py-1 px-2 rounded-lg">{note}</div>}
+          {activeMode === 'ct' && (
+            <div className="font-bold bg-blue-100 text-blue-900 py-1.5 px-3 rounded-lg border border-blue-200 shadow-sm max-w-[280px]">
+              General Contrast Limits: Minimum 60 ml, Maximum 120 ml.
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -539,6 +626,11 @@ const MedicalProtocolsApp = () => {
             <g onClick={() => onSelect('limbs')} className={hoverClass}>
               <path d="M115,205 L110,300 L125,300 L130,205 Z" fill={getFill('limbs')} stroke="white" strokeWidth="2" />
               <path d="M85,205 L90,300 L75,300 L70,205 Z" fill={getFill('limbs')} stroke="white" strokeWidth="2" />
+            </g>
+            {/* Pan Scan Option */}
+            <g onClick={() => onSelect('pan_scan')} className={hoverClass} transform="translate(0, 320)">
+              <rect x="50" y="0" width="100" height="36" rx="18" fill={getFill('pan_scan')} stroke="white" strokeWidth="2" />
+              <text x="100" y="22" className="text-[12px] font-bold" fill={selected === 'pan_scan' ? 'white' : '#64748b'} textAnchor="middle">Pan Scan (مسح شامل)</text>
             </g>
           </>
         )}
