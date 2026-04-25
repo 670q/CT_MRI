@@ -444,7 +444,7 @@ const MedicalProtocolsApp = () => {
       if (!weight || isNaN(weight)) return { vol: defaultVolume || "100", flow: defaultFlow || "N/A" };
       const w = parseFloat(weight);
       let calcVol = Math.round(w * 1.5);
-      if (calcVol > 150) calcVol = 150; if (calcVol < 20) calcVol = 20;
+      if (calcVol > 120) calcVol = 120; if (calcVol < 60) calcVol = 60;
       let calcFlow = parseFloat(defaultFlow);
       if (w < 30) { calcFlow = 1.5 + (w * 0.05); if (calcFlow > 3.0) calcFlow = 3.0; }
       return { vol: calcVol, flow: isNaN(calcFlow) ? defaultFlow : calcFlow.toFixed(1) };
