@@ -578,87 +578,87 @@ const MedicalProtocolsApp = () => {
     );
   };
 
-  // --- MRI Search Bar ---
-  const MriSearchBar = () => {
-    const allProtocols = Object.values(mriProtocolsData);
-    const query = mriSearchQuery.toLowerCase().trim();
-    const filtered = query.length >= 1 ? allProtocols.filter(p => {
-      const titleMatch = p.title.toLowerCase().includes(query);
-      const titleArMatch = p.titleAr && p.titleAr.includes(mriSearchQuery.trim());
-      const keyMatch = p.key.toLowerCase().includes(query);
-      return titleMatch || titleArMatch || keyMatch;
-    }) : [];
+  // --- MRI Search helpers ---
+  const allMriProtocols = Object.values(mriProtocolsData);
+  const mriSearchQueryTrimmed = mriSearchQuery.trim();
+  const mriSearchQueryLower = mriSearchQueryTrimmed.toLowerCase();
+  const mriFilteredResults = mriSearchQueryLower.length >= 1 ? allMriProtocols.filter(p => {
+    const titleMatch = p.title.toLowerCase().includes(mriSearchQueryLower);
+    const titleArMatch = p.titleAr && p.titleAr.includes(mriSearchQueryTrimmed);
+    const keyMatch = p.key.toLowerCase().includes(mriSearchQueryLower);
+    return titleMatch || titleArMatch || keyMatch;
+  }) : [];
 
-    const handleSelect = (proto) => {
-      setSelectedMriCategory(proto.category);
-      setSelectedMriProtocol(proto.key);
-      setSelectedPart(proto.category);
-      setMriActiveTab('images');
-      setMriImageIndex(0);
-      setMriSearchQuery('');
-    };
+  const handleMriSearchSelect = (proto) => {
+    setSelectedMriCategory(proto.category);
+    setSelectedMriProtocol(proto.key);
+    setSelectedPart(proto.category);
+    setMriActiveTab('images');
+    setMriImageIndex(0);
+    setMriSearchQuery('');
+  };
 
-    return (
-      <div className="relative mb-5">
-        <div className="relative">
-          <input
-            type="text"
-            value={mriSearchQuery}
-            onChange={(e) => setMriSearchQuery(e.target.value)}
-            placeholder="🔍 ابحث عن فحص MRI... (مثال: brain, knee, الدماغ)"
-            className="w-full bg-white border-2 border-purple-200 rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 placeholder:text-gray-400 shadow-sm"
-            dir="auto"
-          />
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
-          {mriSearchQuery && (
-            <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
-              <X size={16} />
-            </button>
-          )}
-        </div>
-
-        {/* Search Results Dropdown */}
-        {query.length >= 1 && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-purple-200 shadow-xl z-20 max-h-[320px] overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
-            {filtered.length > 0 ? (
-              filtered.map(proto => {
-                const catInfo = MRI_CATEGORIES[proto.category];
-                return (
-                  <button
-                    key={proto.key}
-                    onClick={() => handleSelect(proto)}
-                    className="w-full text-right p-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between gap-3"
-                  >
-                    <div className="flex items-center gap-2 min-w-0 flex-1">
-                      <span className="text-lg flex-shrink-0">{catInfo?.icon}</span>
-                      <div className="min-w-0">
-                        <div className="font-bold text-sm text-gray-800 truncate">{proto.titleAr}</div>
-                        <div className="text-xs text-gray-500 truncate dir-ltr text-right">{proto.title}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      <span className="text-[10px] text-purple-500 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
-                      <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
-                    </div>
-                  </button>
-                );
-              })
-            ) : (
-              <div className="p-4 text-center text-gray-400 text-sm">
-                <Search size={24} className="mx-auto mb-2 text-gray-300" />
-                لا توجد نتائج لـ "{mriSearchQuery}"
-              </div>
-            )}
-          </div>
+  // Render search bar as inline JSX (not a component) to prevent input losing focus
+  const renderMriSearchBar = () => (
+    <div className="relative mb-5">
+      <div className="relative">
+        <input
+          type="text"
+          value={mriSearchQuery}
+          onChange={(e) => setMriSearchQuery(e.target.value)}
+          placeholder="🔍 ابحث عن فحص MRI... (مثال: brain, knee, الدماغ)"
+          className="w-full bg-white border-2 border-purple-200 rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 placeholder:text-gray-400 shadow-sm"
+          dir="auto"
+        />
+        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
+        {mriSearchQuery && (
+          <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+            <X size={16} />
+          </button>
         )}
       </div>
-    );
-  };
+
+      {/* Search Results Dropdown */}
+      {mriSearchQueryLower.length >= 1 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-purple-200 shadow-xl z-20 max-h-[320px] overflow-y-auto">
+          {mriFilteredResults.length > 0 ? (
+            mriFilteredResults.map(proto => {
+              const catInfo = MRI_CATEGORIES[proto.category];
+              return (
+                <button
+                  key={proto.key}
+                  onClick={() => handleMriSearchSelect(proto)}
+                  className="w-full text-right p-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <span className="text-lg flex-shrink-0">{catInfo?.icon}</span>
+                    <div className="min-w-0">
+                      <div className="font-bold text-sm text-gray-800 truncate">{proto.titleAr}</div>
+                      <div className="text-xs text-gray-500 truncate dir-ltr text-right">{proto.title}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <span className="text-[10px] text-purple-500 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
+                    <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
+                  </div>
+                </button>
+              );
+            })
+          ) : (
+            <div className="p-4 text-center text-gray-400 text-sm">
+              <Search size={24} className="mx-auto mb-2 text-gray-300" />
+              لا توجد نتائج لـ "{mriSearchQuery}"
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 
   // --- MRI Category Selector ---
   const MriCategorySelector = () => (
     <div className="space-y-3">
-      <MriSearchBar />
+      {renderMriSearchBar()}
       <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">اختر القسم المطلوب</h2>
       <div className="grid grid-cols-2 gap-3">
         {Object.entries(MRI_CATEGORIES).map(([key, cat]) => {
@@ -685,8 +685,8 @@ const MedicalProtocolsApp = () => {
     const catInfo = MRI_CATEGORIES[category];
     return (
       <div>
-        <MriSearchBar />
-      <button onClick={() => { setSelectedMriCategory(null); setSelectedMriProtocol(null); setSelectedPart(null); }}
+        {renderMriSearchBar()}
+        <button onClick={() => { setSelectedMriCategory(null); setSelectedMriProtocol(null); setSelectedPart(null); }}
           className="text-purple-600 text-sm mb-4 flex items-center gap-1 hover:underline">
           <ChevronRight size={16} /> الرجوع للأقسام
         </button>
