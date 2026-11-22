@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Database, Info, Settings, Syringe, User, XCircle, Share, Download, Wifi, WifiOff, Smartphone, Calculator, Magnet, Layers, AlertCircle, ChevronLeft, ChevronRight, Eye, Stethoscope, ShieldAlert, ClipboardList, Move, ImageIcon, X, Search } from 'lucide-react';
+import { Activity, Database, Info, Settings, Syringe, User, XCircle, Share, Download, Wifi, WifiOff, Smartphone, Calculator, Magnet, Layers, AlertCircle, ChevronLeft, ChevronRight, Eye, Stethoscope, ShieldAlert, ClipboardList, Move, ImageIcon, X, Search, Sliders, Cpu, Wrench, ShieldCheck, Globe } from 'lucide-react';
 import { mriProtocolsData, MRI_CATEGORIES } from './mriData';
+import { MriProtocolDetailCard } from './components/mri/MriProtocolDetailCard';
+import { MriPhysicsSimulator } from './components/mri/MriPhysicsSimulator';
+import { MriVendorSwitcher } from './components/mri/MriVendorSwitcher';
+import { MriArtifactRescue } from './components/mri/MriArtifactRescue';
+import { MriSafetyCalculator } from './components/mri/MriSafetyCalculator';
 
 const MedicalProtocolsApp = () => {
   // Mode: 'ct' or 'mri'
   const [activeMode, setActiveMode] = useState('ct');
+  const [language, setLanguage] = useState('ar'); // 'ar' or 'en'
+  const [mriSubTab, setMriSubTab] = useState('protocols'); // 'protocols' | 'physics' | 'vendors' | 'artifacts' | 'safety'
+  const [selectedVendor, setSelectedVendor] = useState('all'); // 'all' | 'siemens' | 'ge' | 'philips'
   const [selectedPart, setSelectedPart] = useState(null);
   const [selectedMriCategory, setSelectedMriCategory] = useState(null);
   const [selectedMriProtocol, setSelectedMriProtocol] = useState(null);
@@ -44,15 +52,21 @@ const MedicalProtocolsApp = () => {
     };
   }, [activeMode]); // Re-run when mode changes to update theme color
 
+  const getThemeColor = () => {
+    return activeMode === 'ct' ? '#2563eb' : '#7c3aed';
+  };
+
   const setupPWAEnvironment = () => {
-    const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="${activeMode === 'ct' ? '%232563eb' : '%237c3aed'}"><rect x="0" y="0" width="512" height="512" rx="100" fill="white"/><path d="M368 224H288V144H224V224H144V288H224V368H288V288H368V224Z" fill="${activeMode === 'ct' ? '%232563eb' : '%237c3aed'}"/></svg>`;
+    const themeColor = getThemeColor();
+    const encodedTheme = encodeURIComponent(themeColor);
+    const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="${encodedTheme}"><rect x="0" y="0" width="512" height="512" rx="100" fill="white"/><path d="M368 224H288V144H224V224H144V288H224V368H288V288H368V224Z" fill="${encodedTheme}"/></svg>`;
     const iconUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(iconSvg)}`;
 
     // Update Meta Tags
     const metaTags = [
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
       { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-      { name: 'theme-color', content: activeMode === 'ct' ? '#2563eb' : '#7c3aed' },
+      { name: 'theme-color', content: themeColor },
       { name: 'apple-mobile-web-app-title', content: 'مستشفى خميس مشيط' },
     ];
 
@@ -85,7 +99,7 @@ const MedicalProtocolsApp = () => {
       start_url: ".",
       display: "standalone",
       background_color: "#ffffff",
-      theme_color: activeMode === 'ct' ? '#2563eb' : '#7c3aed',
+      theme_color: themeColor,
       icons: [{ src: iconUrl, sizes: "512x512", type: "image/svg+xml" }]
     };
     
@@ -395,16 +409,16 @@ const MedicalProtocolsApp = () => {
   // --- Components ---
 
   const ModeSwitcher = () => (
-    <div className="flex bg-gray-100 p-1 rounded-xl mb-6 shadow-inner mx-4 sm:mx-0">
+    <div className="flex bg-gray-100 p-1.5 rounded-2xl mb-6 shadow-inner mx-4 sm:mx-0 gap-1">
       <button 
         onClick={() => { setActiveMode('ct'); setSelectedPart(null); }}
-        className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'ct' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'ct' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
       >
         <Activity size={18} /> الأشعة المقطعية (CT)
       </button>
       <button 
         onClick={() => { setActiveMode('mri'); setSelectedPart(null); }}
-        className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'mri' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'mri' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
       >
         <Magnet size={18} /> الرنين المغناطيسي (MRI)
       </button>
@@ -470,9 +484,15 @@ const MedicalProtocolsApp = () => {
 
     return (
       <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className={`p-4 text-white relative bg-gradient-to-l ${activeMode === 'ct' ? 'from-blue-600 to-blue-800' : 'from-purple-600 to-purple-800'}`}>
+        <div className={`p-4 text-white relative flex items-center justify-between bg-gradient-to-l ${activeMode === 'ct' ? 'from-blue-600 to-blue-800' : 'from-purple-600 to-purple-800'}`}>
           <h2 className="text-2xl font-bold">{data.title}</h2>
-          <button onClick={() => setSelectedPart(null)} className="absolute left-4 top-4 text-white/80 hover:text-white lg:hidden">✕ إغلاق</button>
+          <button 
+            onClick={() => setSelectedPart(null)} 
+            className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 active:scale-95 text-xs font-bold text-white transition-all border border-white/20"
+          >
+            <span>العودة</span>
+            <span>✕</span>
+          </button>
         </div>
         
         <div className="p-6 overflow-y-auto flex-1 space-y-8">
@@ -855,13 +875,35 @@ const MedicalProtocolsApp = () => {
               {activeMode === 'ct' ? <Activity size={24} /> : <Magnet size={24} />}
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 line-clamp-1">مستشفى خميس مشيط المدني</h1>
+              <h1 className="text-xl font-bold text-gray-900 line-clamp-1">
+                {language === 'en' ? "Khamis Mushait Hospital - Radiology Department" : "مستشفى خميس مشيط المدني"}
+              </h1>
               <div className="flex items-center gap-2">
-                 {isOffline ? <span className="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full flex gap-1"><WifiOff size={12}/> أوفلاين</span> : <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded-full flex gap-1"><Wifi size={12}/> متصل</span>}
+                 {isOffline ? <span className="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full flex gap-1"><WifiOff size={12}/> {language === 'en' ? "Offline" : "أوفلاين"}</span> : <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded-full flex gap-1"><Wifi size={12}/> {language === 'en' ? "Connected" : "متصل"}</span>}
               </div>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            {/* Language Switcher (AR / EN) */}
+            <button
+              onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
+              className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-mono font-bold text-gray-700 flex items-center gap-1.5 transition-colors border border-gray-200"
+              title="تبديل اللغة / Toggle Language"
+            >
+              <Globe size={14} className="text-purple-600" />
+              <span>{language === 'ar' ? 'English' : 'عربي'}</span>
+            </button>
+
+            {/* Quick Link to Standalone Ultrasound Simulator */}
+            <a
+              href="http://localhost:5174/"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 text-xs font-bold transition-colors"
+            >
+              <span>محاكي السونار (US) ↗</span>
+            </a>
+
             {showInstallPrompt && <button onClick={handleInstallClick} className={`text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 ${activeMode === 'ct' ? 'bg-blue-600' : 'bg-purple-600'}`}><Download size={16} /> تثبيت</button>}
             {isIOS && <button onClick={() => setShowIOSGuide(true)} className="bg-gray-100 text-blue-600 px-3 py-1.5 rounded-lg text-sm flex items-center gap-2"><Smartphone size={16} /> تثبيت</button>}
           </div>
@@ -873,85 +915,175 @@ const MedicalProtocolsApp = () => {
         
         <ModeSwitcher />
 
-        {(() => {
-          const hasDetailSelected = activeMode === 'ct' ? !!selectedPart : !!selectedMriProtocol;
-          return (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
-              {/* Left: Body / MRI Categories */}
-              <div className={`${hasDetailSelected ? 'hidden lg:flex' : 'flex'} lg:col-span-4 flex-col ${activeMode === 'mri' ? '' : 'items-center'} bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[500px]`}>
-                {activeMode === 'ct' && <h2 className="text-lg font-semibold text-gray-700 mb-4">اضغط على المنطقة المطلوبة</h2>}
-                {activeMode === 'mri' && (
-                  <div className="relative mb-5 w-full">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={mriSearchQuery}
-                        onChange={(e) => setMriSearchQuery(e.target.value)}
-                        placeholder="🔍 ابحث عن فحص MRI... (مثال: brain, knee, الدماغ)"
-                        className="w-full bg-white border-2 border-purple-200 rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 placeholder:text-gray-400 shadow-sm"
-                        dir="auto"
-                      />
-                      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
-                      {mriSearchQuery && (
-                        <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
-                          <X size={16} />
-                        </button>
-                      )}
-                    </div>
-                    {mriSearchQueryLower.length >= 1 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-purple-200 shadow-xl z-20 max-h-[320px] overflow-y-auto">
-                        {mriFilteredResults.length > 0 ? (
-                          mriFilteredResults.map(proto => {
-                            const catInfo = MRI_CATEGORIES[proto.category];
-                            return (
-                              <button
-                                key={proto.key}
-                                onClick={() => handleMriSearchSelect(proto)}
-                                className="w-full text-right p-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between gap-3"
-                              >
-                                <div className="flex items-center gap-2 min-w-0 flex-1">
-                                  <span className="text-lg flex-shrink-0">{catInfo?.icon}</span>
-                                  <div className="min-w-0">
-                                    <div className="font-bold text-sm text-gray-800 truncate">{proto.titleAr}</div>
-                                    <div className="text-xs text-gray-500 truncate dir-ltr text-right">{proto.title}</div>
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-1 flex-shrink-0">
-                                  <span className="text-[10px] text-purple-500 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
-                                  <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
-                                </div>
-                              </button>
-                            );
-                          })
-                        ) : (
-                          <div className="p-4 text-center text-gray-400 text-sm">
-                            <Search size={24} className="mx-auto mb-2 text-gray-300" />
-                            لا توجد نتائج لـ "{mriSearchQuery}"
-                          </div>
+        {/* Board-Level MRI Companion Navigation Sub-Tabs */}
+        {activeMode === 'mri' && (
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-6 scrollbar-none text-xs select-none">
+            <button
+              onClick={() => setMriSubTab('protocols')}
+              className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
+                mriSubTab === 'protocols'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+              }`}
+            >
+              <Layers size={16} />
+              <span>{language === 'en' ? "Protocols & 3D Planning" : "البروتوكولات والتخطيط (Planning)"}</span>
+            </button>
+
+            <button
+              onClick={() => setMriSubTab('physics')}
+              className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
+                mriSubTab === 'physics'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+              }`}
+            >
+              <Sliders size={16} />
+              <span>{language === 'en' ? "Physics & SNR Simulator" : "محاكي الفيزياء والـ SNR"}</span>
+            </button>
+
+            <button
+              onClick={() => setMriSubTab('vendors')}
+              className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
+                mriSubTab === 'vendors'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+              }`}
+            >
+              <Cpu size={16} />
+              <span>{language === 'en' ? "Cross-Vendor Mapper" : "محول الشركات (Siemens/GE/Philips)"}</span>
+            </button>
+
+            <button
+              onClick={() => setMriSubTab('artifacts')}
+              className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
+                mriSubTab === 'artifacts'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+              }`}
+            >
+              <Wrench size={16} />
+              <span>{language === 'en' ? "Scan Rescue (Artifacts)" : "إنقاذ الفحص (Scan Rescue)"}</span>
+            </button>
+
+            <button
+              onClick={() => setMriSubTab('safety')}
+              className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
+                mriSubTab === 'safety'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+              }`}
+            >
+              <ShieldAlert size={16} />
+              <span>{language === 'en' ? "Safety & Contrast (ACR)" : "السلامة والصبغات (ACR Safety)"}</span>
+            </button>
+          </div>
+        )}
+
+        {/* Sub-Tab 1: Protocols & Planning (Default) */}
+        {activeMode === 'mri' && mriSubTab === 'physics' && (
+          <MriPhysicsSimulator language={language} />
+        )}
+
+        {activeMode === 'mri' && mriSubTab === 'vendors' && (
+          <MriVendorSwitcher language={language} />
+        )}
+
+        {activeMode === 'mri' && mriSubTab === 'artifacts' && (
+          <MriArtifactRescue language={language} />
+        )}
+
+        {activeMode === 'mri' && mriSubTab === 'safety' && (
+          <MriSafetyCalculator language={language} />
+        )}
+
+        {(activeMode === 'ct' || (activeMode === 'mri' && mriSubTab === 'protocols')) && (
+          (() => {
+            const hasDetailSelected = activeMode === 'ct' ? !!selectedPart : !!selectedMriProtocol;
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
+                {/* Left: Body / MRI Categories */}
+                <div className={`${hasDetailSelected ? 'hidden lg:flex' : 'flex'} lg:col-span-4 flex-col ${activeMode === 'mri' ? '' : 'items-center'} bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[500px]`}>
+                  {activeMode === 'ct' && <h2 className="text-lg font-semibold text-gray-700 mb-4">اضغط على المنطقة المطلوبة</h2>}
+                  {activeMode === 'mri' && (
+                    <div className="relative mb-5 w-full">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={mriSearchQuery}
+                          onChange={(e) => setMriSearchQuery(e.target.value)}
+                          placeholder={language === 'en' ? "🔍 Search MRI exam... (e.g. brain, knee, spine)" : "🔍 ابحث عن فحص MRI... (مثال: brain, knee, الدماغ)"}
+                          className="w-full bg-white border-2 border-purple-200 rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 placeholder:text-gray-400 shadow-sm"
+                          dir="auto"
+                        />
+                        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
+                        {mriSearchQuery && (
+                          <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                            <X size={16} />
+                          </button>
                         )}
                       </div>
-                    )}
+                      {mriSearchQueryLower.length >= 1 && (
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-purple-200 shadow-xl z-20 max-h-[320px] overflow-y-auto">
+                          {mriFilteredResults.length > 0 ? (
+                            mriFilteredResults.map(proto => {
+                              const catInfo = MRI_CATEGORIES[proto.category];
+                              return (
+                                <button
+                                  key={proto.key}
+                                  onClick={() => handleMriSearchSelect(proto)}
+                                  className="w-full text-right p-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between gap-3"
+                                >
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <span className="text-lg flex-shrink-0">{catInfo?.icon}</span>
+                                    <div className="min-w-0">
+                                      <div className="font-bold text-sm text-gray-800 truncate">{language === 'en' ? proto.title : proto.titleAr}</div>
+                                      <div className="text-xs text-gray-500 truncate dir-ltr text-right">{proto.title}</div>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-1 flex-shrink-0">
+                                    <span className="text-[10px] text-purple-500 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
+                                    <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
+                                  </div>
+                                </button>
+                              );
+                            })
+                          ) : (
+                            <div className="p-4 text-center text-gray-400 text-sm">
+                              <Search size={24} className="mx-auto mb-2 text-gray-300" />
+                              لا توجد نتائج لـ "{mriSearchQuery}"
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className={`w-full ${activeMode === 'ct' ? 'max-w-[300px]' : ''} flex-1 flex items-center justify-center`}>
+                    <InteractiveBody onSelect={setSelectedPart} selected={selectedPart} />
                   </div>
-                )}
-                <div className={`w-full ${activeMode === 'ct' ? 'max-w-[300px]' : ''} flex-1 flex items-center justify-center`}>
-                  <InteractiveBody onSelect={setSelectedPart} selected={selectedPart} />
+                  <div className="mt-6 text-sm text-center text-gray-400 bg-gray-50 p-3 rounded-lg w-full">
+                    {activeMode === 'ct' ? 'يشمل بروتوكولات Pan CT وحالات الحقن' : `بروتوكولات MRI الشاملة مع ${Object.values(mriProtocolsData).reduce((sum, p) => sum + (p.items ? p.items.length : 0), 0)} صورة تخطيط`}
+                  </div>
                 </div>
-                <div className="mt-6 text-sm text-center text-gray-400 bg-gray-50 p-3 rounded-lg w-full">
-                  {activeMode === 'ct' ? 'يشمل بروتوكولات Pan CT وحالات الحقن' : `بروتوكولات MRI الشاملة مع ${Object.values(mriProtocolsData).reduce((sum, p) => sum + (p.items ? p.items.length : 0), 0)} صورة تخطيط`}
-                </div>
-              </div>
 
-              {/* Right: Info */}
-              <div className={`${hasDetailSelected ? 'block' : 'hidden lg:block'} lg:col-span-8 min-h-[500px]`}>
-                {activeMode === 'ct' ? (
-                  <ProtocolCard data={selectedPart ? ctProtocols[selectedPart] : null} />
-                ) : (
-                  <MriProtocolCard protocol={getSelectedMriData()} />
-                )}
+                {/* Right: Info */}
+                <div className={`${hasDetailSelected ? 'block' : 'hidden lg:block'} lg:col-span-8 min-h-[500px]`}>
+                  {activeMode === 'ct' ? (
+                    <ProtocolCard data={selectedPart ? ctProtocols[selectedPart] : null} />
+                  ) : (
+                    <MriProtocolDetailCard 
+                      protocol={getSelectedMriData()} 
+                      onClose={() => setSelectedMriProtocol(null)}
+                      selectedVendor={selectedVendor}
+                      onSelectVendor={setSelectedVendor}
+                      language={language}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })()}
+            );
+          })()
+        )}
 
         {/* Image Viewer Modal */}
         {showImageViewer && selectedMriProtocol && (
@@ -965,8 +1097,14 @@ const MedicalProtocolsApp = () => {
       
       <footer className="bg-white border-t border-gray-200 py-6 mb-10 lg:mb-0">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-          <p className="font-medium">{activeMode === 'ct' ? 'جميع المعلومات مستخرجة من ملفات حنين' : 'المصدر: MRI Master Complete Protocols & Planning Guide'}</p>
-          <p className={`mt-2 font-bold text-lg ${activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'}`}>أنس</p>
+          <p className="font-medium">
+            {activeMode === 'ct'
+              ? 'جميع المعلومات مستخرجة من ملفات حنين'
+              : 'المصدر: MRI Master Complete Protocols & Planning Guide'}
+          </p>
+          <p className={`mt-2 font-bold text-lg ${
+            activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'
+          }`}>أنس</p>
         </div>
       </footer>
     </div>
