@@ -894,15 +894,7 @@ const MedicalProtocolsApp = () => {
               <span>{language === 'ar' ? 'English' : 'عربي'}</span>
             </button>
 
-            {/* Quick Link to Standalone Ultrasound Simulator */}
-            <a
-              href="http://localhost:5174/"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 text-xs font-bold transition-colors"
-            >
-              <span>محاكي السونار (US) ↗</span>
-            </a>
+
 
             {showInstallPrompt && <button onClick={handleInstallClick} className={`text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 ${activeMode === 'ct' ? 'bg-blue-600' : 'bg-purple-600'}`}><Download size={16} /> تثبيت</button>}
             {isIOS && <button onClick={() => setShowIOSGuide(true)} className="bg-gray-100 text-blue-600 px-3 py-1.5 rounded-lg text-sm flex items-center gap-2"><Smartphone size={16} /> تثبيت</button>}
