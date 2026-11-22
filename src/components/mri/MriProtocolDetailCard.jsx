@@ -299,46 +299,69 @@ export const MriProtocolDetailCard = ({
           {showSequences && (
             <div className="p-4 pt-1 border-t border-slate-800/80 space-y-2 animate-in fade-in duration-200">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                {flagship.sequences.map((seq) => (
-                  <button
-                    key={seq.id}
-                    onClick={() => {
-                      setActiveSequenceId(seq.id);
-                      setShowPlanningImages(true);
-                      setTimeout(() => {
-                        const el = document.getElementById(`mri-card-${seq.imageIndex}`);
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }, 100);
-                    }}
-                    className={`p-2.5 rounded-xl text-right border text-xs transition-all flex flex-col justify-between ${
-                      activeSequenceId === seq.id
-                        ? 'bg-purple-950/80 border-purple-500 text-white shadow-md shadow-purple-500/20'
-                        : 'bg-slate-950 hover:bg-slate-900 border-slate-800 text-slate-300'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-1 w-full mb-1">
-                      <span className="font-bold text-purple-200 truncate">
-                        {isEn ? seq.nameEn : seq.nameAr}
-                      </span>
-                      <span className="text-[9px] font-mono text-purple-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
-                        {isEn ? `Image #${seq.imageIndex + 1}` : `صورة #${seq.imageIndex + 1}`}
-                      </span>
-                    </div>
+                {flagship.sequences.map((seq) => {
+                  const isExpanded = activeSequenceId === seq.id;
+                  const matchingImg = items[seq.imageIndex];
 
-                    <div className="text-[11px] font-mono text-emerald-400 truncate dir-ltr text-right">
-                      {getVendorSequenceName(seq)}
-                    </div>
+                  return (
+                    <div
+                      key={seq.id}
+                      className={`p-3 rounded-xl text-right border text-xs transition-all flex flex-col justify-between ${
+                        isExpanded
+                          ? 'bg-purple-950/80 border-purple-500 text-white shadow-lg shadow-purple-500/20 sm:col-span-2'
+                          : 'bg-slate-950 hover:bg-slate-900 border-slate-800 text-slate-300'
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveSequenceId(isExpanded ? null : seq.id);
+                        }}
+                        className="w-full text-right"
+                      >
+                        <div className="flex items-center justify-between gap-1 w-full mb-1">
+                          <span className="font-bold text-purple-200">
+                            {isEn ? seq.nameEn : seq.nameAr}
+                          </span>
+                          <span className="text-[9px] font-mono text-purple-300 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                            {isEn ? `Image #${seq.imageIndex + 1}` : `صورة #${seq.imageIndex + 1}`}
+                          </span>
+                        </div>
 
-                    {seq.params && (
-                      <div className="mt-1 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                        <span>TR: {seq.params.tr}</span>
-                        <span>TE: {seq.params.te}</span>
-                        <span>FOV: {seq.params.fov}</span>
-                        <span>THK: {seq.params.thk}</span>
-                      </div>
-                    )}
-                  </button>
-                ))}
+                        <div className="text-[11px] font-mono text-emerald-400 truncate dir-ltr text-right">
+                          {getVendorSequenceName(seq)}
+                        </div>
+
+                        {seq.params && (
+                          <div className="mt-1.5 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                            <span>TR: {seq.params.tr}</span>
+                            <span>TE: {seq.params.te}</span>
+                            <span>FOV: {seq.params.fov}</span>
+                            <span>THK: {seq.params.thk}</span>
+                          </div>
+                        )}
+                      </button>
+
+                      {/* Expanded Matching Planning Slice */}
+                      {isExpanded && matchingImg && (
+                        <div className="mt-3 pt-3 border-t border-purple-800/50">
+                          <div className="text-[11px] text-purple-300 font-bold mb-1.5 flex items-center justify-between">
+                            <span>{isEn ? "Matching Planning Slice:" : "صورة التخطيط المطابقة:"}</span>
+                            <span className="text-[10px] text-slate-400 font-normal">{matchingImg.caption}</span>
+                          </div>
+                          <div className="relative rounded-xl overflow-hidden border border-purple-500/40 bg-black aspect-video max-h-[300px] flex items-center justify-center">
+                            <img
+                              src={matchingImg.image}
+                              alt={matchingImg.caption || "Planning Slice"}
+                              className="max-h-full max-w-full object-contain"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

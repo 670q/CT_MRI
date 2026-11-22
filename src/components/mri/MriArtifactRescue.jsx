@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   AlertTriangle, Wrench, Search, X, CheckCircle2, ShieldAlert, 
-  Sparkles, Layers, Cpu, ArrowRight 
+  Sparkles, Layers, Cpu, ArrowRight, Maximize2, ImageIcon
 } from 'lucide-react';
 import { MRI_ARTIFACTS, ARTIFACT_CATEGORIES } from '../../data/mriArtifactsData';
 
@@ -10,6 +10,7 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedImageModal, setSelectedImageModal] = useState(null);
 
   const filteredArtifacts = MRI_ARTIFACTS.filter((art) => {
     const matchesCat = selectedCategory === 'all' || art.category === selectedCategory;
@@ -47,7 +48,7 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
         </div>
 
         <div className="flex items-center gap-1.5 text-[10px] font-mono text-amber-300 bg-amber-950/40 border border-amber-500/30 px-3 py-1.5 rounded-xl">
-          <span>{filteredArtifacts.length} {isEn ? "Artifact Guides" : "دليلاً سريرياً"}</span>
+          <span>{filteredArtifacts.length} {isEn ? "Artifact Guides" : "دليلاً سريرياً مصوراً"}</span>
         </div>
       </div>
 
@@ -58,7 +59,7 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={isEn ? "🔍 Search artifact by clue or name (e.g. metal, wrap, ghosting, india ink, magic angle)..." : "🔍 ابحث عن العيب بالعلامة أو الاسم (مثال: معادن، التفاف، شبحية، زاوية سحرية، دهون)..."}
+            placeholder={isEn ? "Search artifact by clue or name (e.g. metal, wrap, ghosting, india ink, magic angle)..." : "ابحث عن العيب بالعلامة أو الاسم (مثال: معادن، التفاف، شبحية، زاوية سحرية، دهون)..."}
             className="w-full bg-slate-900 border border-slate-800 rounded-2xl px-4 py-3 pr-11 text-xs sm:text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all font-mono"
             dir="auto"
           />
@@ -103,7 +104,7 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
       </div>
 
       {/* Artifact Cards Matrix */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         {filteredArtifacts.map((art) => (
           <div
             key={art.id}
@@ -133,6 +134,23 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
               </div>
             </div>
 
+            {/* Medical Illustration Image */}
+            <div 
+              className="rounded-2xl overflow-hidden border border-slate-800 bg-black/95 group relative cursor-pointer"
+              onClick={() => setSelectedImageModal({ image: `/artifacts/${art.id}.png`, title: isEn ? art.nameEn : art.nameAr })}
+            >
+              <img 
+                src={`/artifacts/${art.id}.png`} 
+                alt={art.nameEn} 
+                className="w-full h-48 sm:h-64 object-contain transition-transform duration-300 group-hover:scale-[1.01]" 
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity gap-2">
+                <Maximize2 size={16} />
+                <span>{isEn ? "Click to Enlarge Diagram" : "تكبير المخطط التوضيحي"}</span>
+              </div>
+            </div>
+
             {/* Step 1: Visual Clinical Clue */}
             <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-1">
               <span className="text-[10px] text-amber-400 font-mono font-bold flex items-center gap-1.5 uppercase">
@@ -159,44 +177,75 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
             <div className="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
               <span className="text-[10px] text-emerald-400 font-mono font-bold flex items-center gap-1.5 uppercase">
                 <CheckCircle2 size={13} />
-                <span>{isEn ? "3. Immediate Console Fix (What to do on the scanner)" : "3. حل الكونسول الفوري (الخطوات العملية على الجهاز)"}</span>
+                <span>{isEn ? "3. Immediate Console Fix (Actionable Steps)" : "3. خطوات الإصلاح الفوري بالكونسول (ماذا تفعل الآن)"}</span>
               </span>
-              
-              <ul className="space-y-1.5 text-xs text-slate-200">
+              <div className="space-y-1.5 text-xs text-slate-300">
                 {(isEn ? art.immediateFix.en : art.immediateFix.ar).map((step, sIdx) => (
-                  <li key={sIdx} className="leading-relaxed flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">•</span>
+                  <p key={sIdx} className="leading-relaxed flex items-start gap-2">
+                    <span className="text-emerald-400 font-mono font-bold mt-0.5">•</span>
                     <span>{step}</span>
-                  </li>
+                  </p>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            {/* Vendor Specific Solutions */}
+            {/* Step 4: Dedicated Vendor Fixes (Siemens / GE / Philips) */}
             {art.vendorTools && (
-              <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-400">
-                <span className="font-bold text-slate-300">{isEn ? "Vendor Features:" : "الأدوات البرمجية للشركات:"}</span>
-                <span className="bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
-                  <strong className="text-cyan-400">Siemens:</strong> {art.vendorTools.siemens}
+              <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/90 text-xs flex flex-wrap items-center justify-between gap-2">
+                <span className="text-[10px] text-slate-400 font-mono flex items-center gap-1">
+                  <Cpu size={12} className="text-purple-400" />
+                  <span>{isEn ? "Vendor-Specific Advanced Tools:" : "أدوات مخصصة بالأجهزة:"}</span>
                 </span>
-                <span className="bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
-                  <strong className="text-blue-400">GE:</strong> {art.vendorTools.ge}
-                </span>
-                <span className="bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
-                  <strong className="text-purple-400">Philips:</strong> {art.vendorTools.philips}
-                </span>
+
+                <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono">
+                  {art.vendorTools.siemens && (
+                    <span className="px-2 py-0.5 rounded bg-blue-950/60 text-blue-300 border border-blue-800/60">
+                      Siemens: {art.vendorTools.siemens}
+                    </span>
+                  )}
+                  {art.vendorTools.ge && (
+                    <span className="px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-800/60">
+                      GE: {art.vendorTools.ge}
+                    </span>
+                  )}
+                  {art.vendorTools.philips && (
+                    <span className="px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
+                      Philips: {art.vendorTools.philips}
+                    </span>
+                  )}
+                </div>
               </div>
             )}
-
           </div>
         ))}
-
-        {filteredArtifacts.length === 0 && (
-          <div className="p-8 text-center text-slate-500 text-xs">
-            {isEn ? "No artifacts found matching your query." : "لم يتم العثور على عيوب تطابق بحثك."}
-          </div>
-        )}
       </div>
+
+      {/* Fullscreen Image Modal */}
+      {selectedImageModal && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedImageModal(null)}
+        >
+          <div className="relative max-w-4xl w-full bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden p-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 className="text-sm font-bold text-amber-300">
+                {selectedImageModal.title}
+              </h4>
+              <button 
+                onClick={() => setSelectedImageModal(null)}
+                className="text-slate-400 hover:text-white px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold"
+              >
+                ✕ {isEn ? "Close" : "إغلاق"}
+              </button>
+            </div>
+            <img 
+              src={selectedImageModal.image} 
+              alt={selectedImageModal.title}
+              className="w-full max-h-[80vh] object-contain rounded-xl"
+            />
+          </div>
+        </div>
+      )}
 
     </div>
   );

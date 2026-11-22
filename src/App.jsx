@@ -10,9 +10,9 @@ import { MriSafetyCalculator } from './components/mri/MriSafetyCalculator';
 const MedicalProtocolsApp = () => {
   // Mode: 'ct' or 'mri'
   const [activeMode, setActiveMode] = useState('ct');
-  const [language, setLanguage] = useState('ar'); // 'ar' or 'en'
+  const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'ar');
   const [mriSubTab, setMriSubTab] = useState('protocols'); // 'protocols' | 'physics' | 'vendors' | 'artifacts' | 'safety'
-  const [selectedVendor, setSelectedVendor] = useState('all'); // 'all' | 'siemens' | 'ge' | 'philips'
+  const [selectedVendor, setSelectedVendor] = useState(() => localStorage.getItem('selectedVendor') || 'all');
   const [selectedPart, setSelectedPart] = useState(null);
   const [selectedMriCategory, setSelectedMriCategory] = useState(null);
   const [selectedMriProtocol, setSelectedMriProtocol] = useState(null);
@@ -51,6 +51,11 @@ const MedicalProtocolsApp = () => {
       window.removeEventListener('offline', handleStatusChange);
     };
   }, [activeMode]); // Re-run when mode changes to update theme color
+
+  // Persist language preference
+  useEffect(() => { localStorage.setItem('language', language); }, [language]);
+  // Persist vendor preference
+  useEffect(() => { localStorage.setItem('selectedVendor', selectedVendor); }, [selectedVendor]);
 
   const getThemeColor = () => {
     return activeMode === 'ct' ? '#2563eb' : '#7c3aed';
@@ -409,18 +414,18 @@ const MedicalProtocolsApp = () => {
   // --- Components ---
 
   const ModeSwitcher = () => (
-    <div className="flex bg-gray-100 p-1.5 rounded-2xl mb-6 shadow-inner mx-4 sm:mx-0 gap-1">
+    <div className="flex bg-slate-800/80 p-1.5 rounded-2xl mb-5 border border-slate-700 mx-4 sm:mx-0 gap-1">
       <button 
         onClick={() => { setActiveMode('ct'); setSelectedPart(null); }}
-        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'ct' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'ct' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'text-slate-400 hover:text-slate-200'}`}
       >
-        <Activity size={18} /> الأشعة المقطعية (CT)
+        <Activity size={18} /> {language === 'en' ? 'CT Scanner' : 'الأشعة المقطعية (CT)'}
       </button>
       <button 
         onClick={() => { setActiveMode('mri'); setSelectedPart(null); }}
-        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'mri' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${activeMode === 'mri' ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' : 'text-slate-400 hover:text-slate-200'}`}
       >
-        <Magnet size={18} /> الرنين المغناطيسي (MRI)
+        <Magnet size={18} /> {language === 'en' ? 'MRI Master' : 'الرنين المغناطيسي (MRI)'}
       </button>
     </div>
   );
@@ -439,32 +444,32 @@ const MedicalProtocolsApp = () => {
     const { vol, flow } = getCalculatedValues();
 
     return (
-      <div className={`p-5 rounded-xl border shadow-sm mt-4 ${activeMode === 'ct' ? 'bg-blue-50 border-blue-100' : 'bg-purple-50 border-purple-100'}`}>
-        <h4 className={`font-bold mb-4 flex items-center justify-center text-lg ${activeMode === 'ct' ? 'text-blue-900' : 'text-purple-900'}`}>
+      <div className={`p-5 rounded-xl border shadow-sm mt-4 ${activeMode === 'ct' ? 'bg-blue-950/40 border-blue-800/40' : 'bg-purple-950/40 border-purple-800/40'}`}>
+        <h4 className={`font-bold mb-4 flex items-center justify-center text-lg ${activeMode === 'ct' ? 'text-blue-300' : 'text-purple-300'}`}>
            <Syringe size={20} className="ml-2" /> إعدادات الحقن (Injector):
         </h4>
         <div className="mb-4 flex justify-center">
            <div className="relative w-full max-w-[200px]">
-             <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full text-center bg-white border rounded-full px-4 py-1 text-sm outline-none focus:ring-2 transition-all" />
-             {!weight && <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-gray-400 text-xs whitespace-nowrap"><Calculator size={12} className="ml-1" /> أدخل الوزن (kg) (اختياري)</div>}
+             <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full text-center bg-slate-800 border border-slate-700 text-white rounded-full px-4 py-1 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all" />
+             {!weight && <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-slate-500 text-xs whitespace-nowrap"><Calculator size={12} className="ml-1" /> أدخل الوزن (kg) (اختياري)</div>}
            </div>
         </div>
         <div className="flex items-center justify-center gap-4">
-          <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 text-center min-w-[110px]">
-            <span className="text-gray-500 text-xs font-medium block mb-0.5">Volume</span>
-            <div className={`font-bold text-xl dir-ltr flex items-center justify-center gap-1 ${activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'}`}>
+          <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 text-center min-w-[110px]">
+            <span className="text-slate-400 text-xs font-medium block mb-0.5">Volume</span>
+            <div className={`font-bold text-xl dir-ltr flex items-center justify-center gap-1 ${activeMode === 'ct' ? 'text-blue-400' : 'text-purple-400'}`}>
               <span className="text-lg">ml</span><span className="text-2xl">{vol}</span>
             </div>
           </div>
-          <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 text-center min-w-[110px]">
-             <span className="text-gray-500 text-xs font-medium block mb-0.5">Flow Rate</span>
-             <div className={`font-bold text-2xl dir-ltr ${activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'}`}>{flow}</div>
+          <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 text-center min-w-[110px]">
+             <span className="text-slate-400 text-xs font-medium block mb-0.5">Flow Rate</span>
+             <div className={`font-bold text-2xl dir-ltr ${activeMode === 'ct' ? 'text-blue-400' : 'text-purple-400'}`}>{flow}</div>
           </div>
         </div>
-        <div className={`mt-4 pt-4 border-t text-xs text-center px-4 flex flex-col items-center gap-2 ${activeMode === 'ct' ? 'border-blue-200/30 text-blue-800' : 'border-purple-200/30 text-purple-800'}`}>
-          {note && <div className="font-medium bg-white/50 py-1 px-2 rounded-lg">{note}</div>}
+        <div className={`mt-4 pt-4 border-t text-xs text-center px-4 flex flex-col items-center gap-2 ${activeMode === 'ct' ? 'border-blue-800/30 text-blue-300' : 'border-purple-800/30 text-purple-300'}`}>
+          {note && <div className="font-medium bg-slate-800/60 py-1 px-2 rounded-lg">{note}</div>}
           {activeMode === 'ct' && (
-            <div className="font-bold bg-blue-100 text-blue-900 py-1.5 px-3 rounded-lg border border-blue-200 shadow-sm max-w-[280px]">
+            <div className="font-bold bg-blue-950/60 text-blue-200 py-1.5 px-3 rounded-lg border border-blue-800/40 shadow-sm max-w-[280px]">
               General Contrast Limits: Minimum 60 ml, Maximum 120 ml.
             </div>
           )}
@@ -475,16 +480,16 @@ const MedicalProtocolsApp = () => {
 
   const ProtocolCard = ({ data }) => {
     if (!data) return (
-      <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
-        {activeMode === 'ct' ? <Activity size={48} className="mb-4 text-blue-300" /> : <Magnet size={48} className="mb-4 text-purple-300" />}
-        <p className="text-xl font-medium text-center">اختر الفحص المطلوب</p>
-        <p className="text-sm mt-2 text-center text-gray-500">اضغط على المنطقة في الجسم لعرض التفاصيل</p>
+      <div className="h-full flex flex-col items-center justify-center text-slate-500 p-8 border-2 border-dashed border-slate-700 rounded-xl bg-slate-900/50">
+        {activeMode === 'ct' ? <Activity size={48} className="mb-4 text-blue-700" /> : <Magnet size={48} className="mb-4 text-purple-700" />}
+        <p className="text-xl font-medium text-center text-slate-400">اختر الفحص المطلوب</p>
+        <p className="text-sm mt-2 text-center text-slate-500">اضغط على المنطقة في الجسم لعرض التفاصيل</p>
       </div>
     );
 
     return (
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className={`p-4 text-white relative flex items-center justify-between bg-gradient-to-l ${activeMode === 'ct' ? 'from-blue-600 to-blue-800' : 'from-purple-600 to-purple-800'}`}>
+      <div className="bg-slate-900 rounded-xl shadow-lg overflow-hidden border border-slate-800 h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className={`p-4 text-white relative flex items-center justify-between bg-gradient-to-l ${activeMode === 'ct' ? 'from-blue-700 to-blue-900' : 'from-purple-700 to-purple-900'}`}>
           <h2 className="text-2xl font-bold">{data.title}</h2>
           <button 
             onClick={() => setSelectedPart(null)} 
@@ -497,59 +502,57 @@ const MedicalProtocolsApp = () => {
         
         <div className="p-6 overflow-y-auto flex-1 space-y-8">
           {data.exams.map((exam, idx) => (
-            <div key={idx} className="bg-slate-50 rounded-lg p-5 border border-slate-200 shadow-sm">
-              <div className="flex justify-between items-start mb-4 border-b pb-2 border-slate-200">
+            <div key={idx} className="bg-slate-800/60 rounded-lg p-5 border border-slate-700 shadow-sm">
+              <div className="flex justify-between items-start mb-4 border-b pb-2 border-slate-700">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <Database size={20} className={activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'} />
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <Database size={20} className={activeMode === 'ct' ? 'text-blue-400' : 'text-purple-400'} />
                     {exam.name}
                   </h3>
-                  <span className="text-xs text-slate-500 bg-slate-200 px-2 py-0.5 rounded mt-1 inline-block">المصدر: {exam.source}</span>
+                  <span className="text-xs text-slate-400 bg-slate-700 px-2 py-0.5 rounded mt-1 inline-block">المصدر: {exam.source}</span>
                 </div>
                 {exam.contrast ? 
-                  <span className="flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap"><Syringe size={16} /> مع صبغة</span> : 
-                  <span className="flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap"><XCircle size={16} /> بدون صبغة</span>
+                  <span className="flex items-center gap-1 bg-red-900/40 text-red-300 border border-red-800/40 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap"><Syringe size={16} /> مع صبغة</span> : 
+                  <span className="flex items-center gap-1 bg-emerald-900/40 text-emerald-300 border border-emerald-800/40 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap"><XCircle size={16} /> بدون صبغة</span>
                 }
               </div>
 
               {/* Position & Coil Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="bg-white p-3 rounded border border-slate-100">
-                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Position</span>
-                  <div className="flex items-center gap-2 font-medium text-slate-700"><User size={18} /> {exam.position || "غير محدد"}</div>
+                <div className="bg-slate-900 p-3 rounded border border-slate-700">
+                  <span className="text-xs font-bold text-slate-500 uppercase block mb-1">Position</span>
+                  <div className="flex items-center gap-2 font-medium text-slate-200"><User size={18} /> {exam.position || "غير محدد"}</div>
                 </div>
                 {activeMode === 'ct' ? (
-                   <div className="bg-white p-3 rounded border border-slate-100">
-                     <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Center / Laser</span>
-                     <div className="flex items-center gap-2 font-medium text-slate-700"><Info size={18} /> {exam.center || "غير محدد"}</div>
+                   <div className="bg-slate-900 p-3 rounded border border-slate-700">
+                     <span className="text-xs font-bold text-slate-500 uppercase block mb-1">Center / Laser</span>
+                     <div className="flex items-center gap-2 font-medium text-slate-200"><Info size={18} /> {exam.center || "غير محدد"}</div>
                    </div>
                 ) : (
-                   <div className="bg-white p-3 rounded border border-slate-100">
-                     <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Coil</span>
-                     <div className="flex items-center gap-2 font-medium text-slate-700"><Layers size={18} /> {exam.coil || "Body Coil"}</div>
+                   <div className="bg-slate-900 p-3 rounded border border-slate-700">
+                     <span className="text-xs font-bold text-slate-500 uppercase block mb-1">Coil</span>
+                     <div className="flex items-center gap-2 font-medium text-slate-200"><Layers size={18} /> {exam.coil || "Body Coil"}</div>
                    </div>
                 )}
               </div>
 
               {/* Steps */}
               <div className="mb-4">
-                <h4 className="font-bold text-slate-700 mb-2 flex items-center gap-2"><Settings size={18} /> الخطوات والبروتوكول:</h4>
+                <h4 className="font-bold text-slate-300 mb-2 flex items-center gap-2"><Settings size={18} /> الخطوات والبروتوكول:</h4>
                 <div className="space-y-3 mr-2">
-                  {/* Handling simple string steps (CT) vs Complex Object steps (MRI) */}
                   {exam.steps.map((step, sIdx) => {
                     if (typeof step === 'string') {
                       return (
-                        <div key={sIdx} className="flex items-start gap-2 text-slate-600 text-sm leading-relaxed">
+                        <div key={sIdx} className="flex items-start gap-2 text-slate-300 text-sm leading-relaxed">
                           <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${activeMode === 'ct' ? 'bg-blue-500' : 'bg-purple-500'}`}></span>
                           <span>{step}</span>
                         </div>
                       );
                     } else {
-                      // MRI Complex Steps
                       return (
-                        <div key={sIdx} className="bg-white p-3 rounded-lg border border-slate-100 mb-2">
-                          <strong className={`block mb-1 text-sm ${activeMode === 'ct' ? 'text-blue-700' : 'text-purple-700'}`}>{step.title}</strong>
-                          <ul className="space-y-1 pr-4 list-disc text-slate-600 text-sm">
+                        <div key={sIdx} className="bg-slate-900 p-3 rounded-lg border border-slate-700 mb-2">
+                          <strong className={`block mb-1 text-sm ${activeMode === 'ct' ? 'text-blue-400' : 'text-purple-400'}`}>{step.title}</strong>
+                          <ul className="space-y-1 pr-4 list-disc text-slate-300 text-sm">
                             {step.details.map((d, dIdx) => <li key={dIdx}>{d}</li>)}
                           </ul>
                         </div>
@@ -562,7 +565,7 @@ const MedicalProtocolsApp = () => {
               {exam.injector && <InjectorSettings defaultVolume={exam.injector.volume} defaultFlow={exam.injector.flow} note={exam.injector.note} />}
               
               {exam.notes && (
-                <div className="mt-4 bg-yellow-50 p-3 rounded border border-yellow-200 text-sm text-yellow-800">
+                <div className="mt-4 bg-amber-950/40 p-3 rounded border border-amber-800/40 text-sm text-amber-200">
                   <div className="font-bold flex items-center gap-2 mb-1"><AlertCircle size={16} /> تنبيهات هامة:</div>
                   <ul className="list-disc list-inside">{exam.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
                 </div>
@@ -678,7 +681,7 @@ const MedicalProtocolsApp = () => {
   // --- MRI Category Selector ---
   const MriCategorySelector = () => (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">اختر القسم المطلوب</h2>
+      <h2 className="text-lg font-semibold text-slate-300 mb-4 text-center">{language === 'en' ? 'Select Category' : 'اختر القسم المطلوب'}</h2>
       <div className="grid grid-cols-2 gap-3">
         {Object.entries(MRI_CATEGORIES).map(([key, cat]) => {
           const count = getMriProtocolsByCategory(key).length;
@@ -686,11 +689,11 @@ const MedicalProtocolsApp = () => {
           return (
             <button key={key} onClick={() => { setSelectedMriCategory(key); setSelectedMriProtocol(null); setSelectedPart(key); }}
               className={`p-4 rounded-xl border-2 transition-all duration-300 text-center hover:shadow-md ${
-                isSelected ? 'bg-purple-600 text-white border-purple-600 shadow-lg scale-[1.02]' : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300'
+                isSelected ? 'bg-purple-600 text-white border-purple-500 shadow-lg shadow-purple-600/20 scale-[1.02]' : 'bg-slate-800/80 text-slate-200 border-slate-700 hover:border-purple-500/50'
               }`}>
               <div className="text-2xl mb-1">{cat.icon}</div>
               <div className="font-bold text-sm">{cat.title}</div>
-              <div className={`text-xs mt-1 ${isSelected ? 'text-purple-200' : 'text-gray-400'}`}>{count} فحص</div>
+              <div className={`text-xs mt-1 ${isSelected ? 'text-purple-200' : 'text-slate-500'}`}>{count} {language === 'en' ? 'protocols' : 'فحص'}</div>
             </button>
           );
         })}
@@ -705,25 +708,25 @@ const MedicalProtocolsApp = () => {
     return (
       <div>
         <button onClick={() => { setSelectedMriCategory(null); setSelectedMriProtocol(null); setSelectedPart(null); }}
-          className="text-purple-600 text-sm mb-4 flex items-center gap-1 hover:underline">
-          <ChevronRight size={16} /> الرجوع للأقسام
+          className="text-purple-400 text-sm mb-4 flex items-center gap-1 hover:underline">
+          <ChevronRight size={16} /> {language === 'en' ? 'Back to Categories' : 'العودة للأقسام'}
         </button>
-        <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+        <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
           <span className="text-2xl">{catInfo.icon}</span> {catInfo.title}
-          <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{protocols.length}</span>
+          <span className="text-xs bg-purple-900/60 text-purple-300 border border-purple-700/40 px-2 py-0.5 rounded-full">{protocols.length}</span>
         </h2>
         <div className="space-y-2">
           {protocols.map(proto => (
             <button key={proto.key} onClick={() => { setSelectedMriProtocol(proto.key); setMriActiveTab('images'); setMriImageIndex(0); }}
               className={`w-full text-right p-3 rounded-lg border transition-all duration-200 flex items-center justify-between ${
-                selectedMriProtocol === proto.key ? 'bg-purple-50 border-purple-300 shadow-sm' : 'bg-white border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
+                selectedMriProtocol === proto.key ? 'bg-purple-900/40 border-purple-600/50 shadow-sm' : 'bg-slate-800/60 border-slate-700 hover:border-purple-500/40 hover:bg-slate-800'
               }`}>
               <div>
-                <div className="font-bold text-sm text-gray-800">{proto.titleAr}</div>
-                <div className="text-xs text-gray-500">{proto.title}</div>
+                <div className="font-bold text-sm text-white">{language === 'en' ? proto.title : proto.titleAr}</div>
+                <div className="text-xs text-slate-500">{proto.title}</div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400 flex items-center gap-1"><ImageIcon size={12} /> {proto.items ? proto.items.length : 0}</span>
+                <span className="text-xs text-slate-500 flex items-center gap-1"><ImageIcon size={12} /> {proto.items ? proto.items.length : 0}</span>
               </div>
             </button>
           ))}
@@ -855,31 +858,35 @@ const MedicalProtocolsApp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans pb-20 lg:pb-0" dir="rtl">
+    <div className="min-h-screen bg-[#090D16] font-sans pb-20 lg:pb-0" dir="rtl">
       {/* IOS Installation Guide Modal */}
       {showIOSGuide && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-4">
-          <div className="bg-white rounded-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom">
-            <h3 className="font-bold text-lg mb-2">تثبيت على iPhone</h3>
-            <button onClick={() => setShowIOSGuide(false)} className="absolute top-4 left-4 text-gray-500">✕</button>
-            <p className="text-sm text-gray-600">اضغط مشاركة -{'>'} إضافة للصفحة الرئيسية</p>
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom">
+            <h3 className="font-bold text-lg mb-2 text-white">تثبيت على iPhone</h3>
+            <button onClick={() => setShowIOSGuide(false)} className="absolute top-4 left-4 text-slate-400">✕</button>
+            <p className="text-sm text-slate-400">اضغط مشاركة -{'>'} إضافة للصفحة الرئيسية</p>
           </div>
         </div>
       )}
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10 safe-area-top">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <header className="bg-slate-900/95 backdrop-blur-md shadow-md border-b border-slate-800 sticky top-0 z-10 safe-area-top">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-lg text-white transition-colors duration-500 ${activeMode === 'ct' ? 'bg-blue-600' : 'bg-purple-600'}`}>
-              {activeMode === 'ct' ? <Activity size={24} /> : <Magnet size={24} />}
+            <div className={`p-2 rounded-xl text-white transition-colors duration-500 shadow-lg ${activeMode === 'ct' ? 'bg-blue-600 shadow-blue-600/30' : 'bg-purple-600 shadow-purple-600/30'}`}>
+              {activeMode === 'ct' ? <Activity size={22} /> : <Magnet size={22} />}
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 line-clamp-1">
-                {language === 'en' ? "Khamis Mushait Hospital - Radiology Department" : "مستشفى خميس مشيط المدني"}
+              <h1 className="text-base font-bold text-white line-clamp-1">
+                {language === 'en' ? "Khamis Mushait Civil Hospital" : "مستشفى خميس مشيط المدني"}
               </h1>
               <div className="flex items-center gap-2">
-                 {isOffline ? <span className="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full flex gap-1"><WifiOff size={12}/> {language === 'en' ? "Offline" : "أوفلاين"}</span> : <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded-full flex gap-1"><Wifi size={12}/> {language === 'en' ? "Connected" : "متصل"}</span>}
+                <span className="text-xs text-slate-500">{language === 'en' ? "Radiology & Imaging Dept." : "قسم الأشعة والتصوير الطبي"}</span>
+                {isOffline 
+                  ? <span className="text-xs text-orange-400 bg-orange-400/10 px-2 py-0.5 rounded-full flex gap-1 items-center border border-orange-400/20"><WifiOff size={10}/> {language === 'en' ? "Offline" : "أوفلاين"}</span> 
+                  : <span className="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full flex gap-1 items-center border border-emerald-400/20"><Wifi size={10}/> {language === 'en' ? "Live" : "متصل"}</span>
+                }
               </div>
             </div>
           </div>
@@ -887,17 +894,14 @@ const MedicalProtocolsApp = () => {
             {/* Language Switcher (AR / EN) */}
             <button
               onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-              className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-mono font-bold text-gray-700 flex items-center gap-1.5 transition-colors border border-gray-200"
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono font-bold text-slate-200 flex items-center gap-1.5 transition-colors border border-slate-700"
               title="تبديل اللغة / Toggle Language"
             >
-              <Globe size={14} className="text-purple-600" />
+              <Globe size={14} className="text-purple-400" />
               <span>{language === 'ar' ? 'English' : 'عربي'}</span>
             </button>
-
-
-
             {showInstallPrompt && <button onClick={handleInstallClick} className={`text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 ${activeMode === 'ct' ? 'bg-blue-600' : 'bg-purple-600'}`}><Download size={16} /> تثبيت</button>}
-            {isIOS && <button onClick={() => setShowIOSGuide(true)} className="bg-gray-100 text-blue-600 px-3 py-1.5 rounded-lg text-sm flex items-center gap-2"><Smartphone size={16} /> تثبيت</button>}
+            {isIOS && <button onClick={() => setShowIOSGuide(true)} className="bg-slate-800 text-blue-400 px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 border border-slate-700"><Smartphone size={16} /> تثبيت</button>}
           </div>
         </div>
       </header>
@@ -915,11 +919,11 @@ const MedicalProtocolsApp = () => {
               className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
                 mriSubTab === 'protocols'
                   ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+                  : 'bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700'
               }`}
             >
               <Layers size={16} />
-              <span>{language === 'en' ? "Protocols & 3D Planning" : "البروتوكولات والتخطيط (Planning)"}</span>
+              <span>{language === 'en' ? "Protocols & 3D Planning" : "البروتوكولات والتخطيط"}</span>
             </button>
 
             <button
@@ -927,7 +931,7 @@ const MedicalProtocolsApp = () => {
               className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
                 mriSubTab === 'physics'
                   ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+                  : 'bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700'
               }`}
             >
               <Sliders size={16} />
@@ -939,11 +943,11 @@ const MedicalProtocolsApp = () => {
               className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
                 mriSubTab === 'vendors'
                   ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+                  : 'bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700'
               }`}
             >
               <Cpu size={16} />
-              <span>{language === 'en' ? "Cross-Vendor Mapper" : "محول الشركات (Siemens/GE/Philips)"}</span>
+              <span>{language === 'en' ? "Cross-Vendor Mapper" : "محول الشركات (Vendors)"}</span>
             </button>
 
             <button
@@ -951,11 +955,11 @@ const MedicalProtocolsApp = () => {
               className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
                 mriSubTab === 'artifacts'
                   ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+                  : 'bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700'
               }`}
             >
               <Wrench size={16} />
-              <span>{language === 'en' ? "Scan Rescue (Artifacts)" : "إنقاذ الفحص (Scan Rescue)"}</span>
+              <span>{language === 'en' ? "Scan Rescue (Artifacts)" : "إنقاذ الفحص (Artifacts)"}</span>
             </button>
 
             <button
@@ -963,11 +967,11 @@ const MedicalProtocolsApp = () => {
               className={`px-4 py-2.5 rounded-2xl font-bold flex items-center gap-2 whitespace-nowrap transition-all ${
                 mriSubTab === 'safety'
                   ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                  : 'bg-white text-gray-600 hover:text-purple-700 border border-gray-200'
+                  : 'bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700'
               }`}
             >
               <ShieldAlert size={16} />
-              <span>{language === 'en' ? "Safety & Contrast (ACR)" : "السلامة والصبغات (ACR Safety)"}</span>
+              <span>{language === 'en' ? "Safety & Contrast (ACR)" : "السلامة والصبغات (ACR)"}</span>
             </button>
           </div>
         )}
@@ -995,8 +999,8 @@ const MedicalProtocolsApp = () => {
             return (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
                 {/* Left: Body / MRI Categories */}
-                <div className={`${hasDetailSelected ? 'hidden lg:flex' : 'flex'} lg:col-span-4 flex-col ${activeMode === 'mri' ? '' : 'items-center'} bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[500px]`}>
-                  {activeMode === 'ct' && <h2 className="text-lg font-semibold text-gray-700 mb-4">اضغط على المنطقة المطلوبة</h2>}
+                <div className={`${hasDetailSelected ? 'hidden lg:flex' : 'flex'} lg:col-span-4 flex-col ${activeMode === 'mri' ? '' : 'items-center'} bg-slate-900/90 p-6 rounded-2xl shadow-xl border border-slate-800 min-h-[500px]`}>
+                  {activeMode === 'ct' && <h2 className="text-lg font-semibold text-slate-200 mb-4">{language === 'en' ? "Select Anatomical Region" : "اضغط على المنطقة المطلوبة"}</h2>}
                   {activeMode === 'mri' && (
                     <div className="relative mb-5 w-full">
                       <div className="relative">
@@ -1005,18 +1009,18 @@ const MedicalProtocolsApp = () => {
                           value={mriSearchQuery}
                           onChange={(e) => setMriSearchQuery(e.target.value)}
                           placeholder={language === 'en' ? "🔍 Search MRI exam... (e.g. brain, knee, spine)" : "🔍 ابحث عن فحص MRI... (مثال: brain, knee, الدماغ)"}
-                          className="w-full bg-white border-2 border-purple-200 rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 placeholder:text-gray-400 shadow-sm"
+                          className="w-full bg-slate-800/90 border border-slate-700 text-white rounded-xl px-4 py-3 pr-11 text-sm outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 placeholder:text-slate-500 shadow-sm"
                           dir="auto"
                         />
                         <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
                         {mriSearchQuery && (
-                          <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                          <button onClick={() => setMriSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
                             <X size={16} />
                           </button>
                         )}
                       </div>
                       {mriSearchQueryLower.length >= 1 && (
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-purple-200 shadow-xl z-20 max-h-[320px] overflow-y-auto">
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-slate-900 rounded-xl border border-slate-700 shadow-2xl z-20 max-h-[320px] overflow-y-auto">
                           {mriFilteredResults.length > 0 ? (
                             mriFilteredResults.map(proto => {
                               const catInfo = MRI_CATEGORIES[proto.category];
@@ -1024,26 +1028,26 @@ const MedicalProtocolsApp = () => {
                                 <button
                                   key={proto.key}
                                   onClick={() => handleMriSearchSelect(proto)}
-                                  className="w-full text-right p-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between gap-3"
+                                  className="w-full text-right p-3 hover:bg-slate-800 transition-colors border-b border-slate-800 last:border-b-0 flex items-center justify-between gap-3"
                                 >
                                   <div className="flex items-center gap-2 min-w-0 flex-1">
                                     <span className="text-lg flex-shrink-0">{catInfo?.icon}</span>
                                     <div className="min-w-0">
-                                      <div className="font-bold text-sm text-gray-800 truncate">{language === 'en' ? proto.title : proto.titleAr}</div>
-                                      <div className="text-xs text-gray-500 truncate dir-ltr text-right">{proto.title}</div>
+                                      <div className="font-bold text-sm text-white truncate">{language === 'en' ? proto.title : proto.titleAr}</div>
+                                      <div className="text-xs text-slate-400 truncate dir-ltr text-right">{proto.title}</div>
                                     </div>
                                   </div>
                                   <div className="flex items-center gap-1 flex-shrink-0">
-                                    <span className="text-[10px] text-purple-500 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
-                                    <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
+                                    <span className="text-[10px] text-purple-300 bg-purple-950/80 border border-purple-800/50 px-2 py-0.5 rounded-full whitespace-nowrap">{catInfo?.title}</span>
+                                    <span className="text-[10px] text-slate-400 flex items-center gap-0.5"><ImageIcon size={10} />{proto.items?.length || 0}</span>
                                   </div>
                                 </button>
                               );
                             })
                           ) : (
-                            <div className="p-4 text-center text-gray-400 text-sm">
-                              <Search size={24} className="mx-auto mb-2 text-gray-300" />
-                              لا توجد نتائج لـ "{mriSearchQuery}"
+                            <div className="p-4 text-center text-slate-400 text-sm">
+                              <Search size={24} className="mx-auto mb-2 text-slate-500" />
+                              {language === 'en' ? `No results for "${mriSearchQuery}"` : `لا توجد نتائج لـ "${mriSearchQuery}"`}
                             </div>
                           )}
                         </div>
@@ -1053,8 +1057,8 @@ const MedicalProtocolsApp = () => {
                   <div className={`w-full ${activeMode === 'ct' ? 'max-w-[300px]' : ''} flex-1 flex items-center justify-center`}>
                     <InteractiveBody onSelect={setSelectedPart} selected={selectedPart} />
                   </div>
-                  <div className="mt-6 text-sm text-center text-gray-400 bg-gray-50 p-3 rounded-lg w-full">
-                    {activeMode === 'ct' ? 'يشمل بروتوكولات Pan CT وحالات الحقن' : `بروتوكولات MRI الشاملة مع ${Object.values(mriProtocolsData).reduce((sum, p) => sum + (p.items ? p.items.length : 0), 0)} صورة تخطيط`}
+                  <div className="mt-6 text-sm text-center text-slate-400 bg-slate-800/50 border border-slate-800 p-3 rounded-lg w-full">
+                    {activeMode === 'ct' ? (language === 'en' ? 'Includes Pan CT protocols & contrast injection protocols' : 'يشمل بروتوكولات Pan CT وحالات الحقن') : (language === 'en' ? `Comprehensive MRI protocols with ${Object.values(mriProtocolsData).reduce((sum, p) => sum + (p.items ? p.items.length : 0), 0)} planning images` : `بروتوكولات MRI الشاملة مع ${Object.values(mriProtocolsData).reduce((sum, p) => sum + (p.items ? p.items.length : 0), 0)} صورة تخطيط`)}
                   </div>
                 </div>
 
@@ -1087,15 +1091,15 @@ const MedicalProtocolsApp = () => {
         )}
       </main>
       
-      <footer className="bg-white border-t border-gray-200 py-6 mb-10 lg:mb-0">
-        <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+      <footer className="bg-slate-900 border-t border-slate-800 py-6 mb-10 lg:mb-0">
+        <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 text-sm">
           <p className="font-medium">
             {activeMode === 'ct'
               ? 'جميع المعلومات مستخرجة من ملفات حنين'
               : 'المصدر: MRI Master Complete Protocols & Planning Guide'}
           </p>
           <p className={`mt-2 font-bold text-lg ${
-            activeMode === 'ct' ? 'text-blue-600' : 'text-purple-600'
+            activeMode === 'ct' ? 'text-blue-400' : 'text-purple-400'
           }`}>أنس</p>
         </div>
       </footer>
