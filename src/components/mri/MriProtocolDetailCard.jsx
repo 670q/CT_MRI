@@ -19,6 +19,8 @@ export const MriProtocolDetailCard = ({
   const [showSetup, setShowSetup] = useState(false);
   const [showAngulation, setShowAngulation] = useState(false);
   const [showTriggers, setShowTriggers] = useState(false);
+  const [showSequences, setShowSequences] = useState(false);
+  const [showPlanningImages, setShowPlanningImages] = useState(false);
   const [activeSequenceId, setActiveSequenceId] = useState(null);
   const [selectedImageModal, setSelectedImageModal] = useState(null);
 
@@ -275,64 +277,95 @@ export const MriProtocolDetailCard = ({
 
       </div>
 
-      {/* 3. Sequence Navigator Linked to Image Cards (User requested: "التسلسلات مع نفس الاسم للصورة") */}
+      {/* 3. Sequence Navigator Linked to Image Cards — COLLAPSIBLE (User requested: hidden until clicked) */}
       {flagship?.sequences && (
-        <div className="p-4 border-b border-slate-800 bg-slate-900/80 space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-white flex items-center gap-1.5">
+        <div className="border-b border-slate-800 bg-slate-900/80">
+          <button
+            onClick={() => setShowSequences(!showSequences)}
+            className="w-full p-4 flex items-center justify-between text-right text-xs font-bold text-slate-200 hover:bg-slate-800/50 transition-colors"
+          >
+            <div className="flex items-center gap-2">
               <Layers size={14} className="text-purple-400" />
               <span>{isEn ? "Clinical Sequence Matrix (Click to locate slice)" : "تسلسلات الفحص السريرية (انقر للانتقال لصورة التخطيط)"}:</span>
-            </span>
-            <span className="text-[10px] font-mono text-slate-400">
-              {isEn ? `Showing for: ${selectedVendor.toUpperCase()}` : `مطابقة لجهاز: ${selectedVendor.toUpperCase()}`}
-            </span>
-          </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-slate-400">
+                {flagship.sequences.length} {isEn ? "sequences" : "تسلسل"} • {isEn ? selectedVendor.toUpperCase() : selectedVendor.toUpperCase()}
+              </span>
+              {showSequences ? <ChevronUp size={14} className="text-slate-400" /> : <ChevronDown size={14} className="text-slate-400" />}
+            </div>
+          </button>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-            {flagship.sequences.map((seq) => (
-              <button
-                key={seq.id}
-                onClick={() => {
-                  setActiveSequenceId(seq.id);
-                  const el = document.getElementById(`mri-card-${seq.imageIndex}`);
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                className={`p-2.5 rounded-xl text-right border text-xs transition-all flex flex-col justify-between ${
-                  activeSequenceId === seq.id
-                    ? 'bg-purple-950/80 border-purple-500 text-white shadow-md shadow-purple-500/20'
-                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 text-slate-300'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-1 w-full mb-1">
-                  <span className="font-bold text-purple-200 truncate">
-                    {isEn ? seq.nameEn : seq.nameAr}
-                  </span>
-                  <span className="text-[9px] font-mono text-purple-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
-                    {isEn ? `Image #${seq.imageIndex + 1}` : `صورة #${seq.imageIndex + 1}`}
-                  </span>
-                </div>
+          {showSequences && (
+            <div className="p-4 pt-1 border-t border-slate-800/80 space-y-2 animate-in fade-in duration-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                {flagship.sequences.map((seq) => (
+                  <button
+                    key={seq.id}
+                    onClick={() => {
+                      setActiveSequenceId(seq.id);
+                      setShowPlanningImages(true);
+                      setTimeout(() => {
+                        const el = document.getElementById(`mri-card-${seq.imageIndex}`);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 100);
+                    }}
+                    className={`p-2.5 rounded-xl text-right border text-xs transition-all flex flex-col justify-between ${
+                      activeSequenceId === seq.id
+                        ? 'bg-purple-950/80 border-purple-500 text-white shadow-md shadow-purple-500/20'
+                        : 'bg-slate-950 hover:bg-slate-900 border-slate-800 text-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1 w-full mb-1">
+                      <span className="font-bold text-purple-200 truncate">
+                        {isEn ? seq.nameEn : seq.nameAr}
+                      </span>
+                      <span className="text-[9px] font-mono text-purple-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                        {isEn ? `Image #${seq.imageIndex + 1}` : `صورة #${seq.imageIndex + 1}`}
+                      </span>
+                    </div>
 
-                <div className="text-[11px] font-mono text-emerald-400 truncate dir-ltr text-right">
-                  {getVendorSequenceName(seq)}
-                </div>
+                    <div className="text-[11px] font-mono text-emerald-400 truncate dir-ltr text-right">
+                      {getVendorSequenceName(seq)}
+                    </div>
 
-                {seq.params && (
-                  <div className="mt-1 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                    <span>TR: {seq.params.tr}</span>
-                    <span>TE: {seq.params.te}</span>
-                    <span>FOV: {seq.params.fov}</span>
-                    <span>THK: {seq.params.thk}</span>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
+                    {seq.params && (
+                      <div className="mt-1 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span>TR: {seq.params.tr}</span>
+                        <span>TE: {seq.params.te}</span>
+                        <span>FOV: {seq.params.fov}</span>
+                        <span>THK: {seq.params.thk}</span>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {/* 4. Stream of Full-Width Image Cards with Exact Matching Names */}
-      <div className="p-5 overflow-y-auto flex-1 space-y-6 bg-slate-950">
-        {items.map((item, idx) => (
+      {/* 4. Stream of Full-Width Image Cards — COLLAPSIBLE */}
+      <div className="border-b border-slate-800 bg-slate-950">
+        <button
+          onClick={() => setShowPlanningImages(!showPlanningImages)}
+          className="w-full p-4 flex items-center justify-between text-right text-xs font-bold text-slate-200 hover:bg-slate-800/50 transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <Eye size={14} className="text-cyan-400" />
+            <span>{isEn ? "MRI Master Planning Images" : "صور التخطيط والوضعية التشريحية"}:</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-slate-400">
+              {items.length} {isEn ? "views" : "صورة"}
+            </span>
+            {showPlanningImages ? <ChevronUp size={14} className="text-slate-400" /> : <ChevronDown size={14} className="text-slate-400" />}
+          </div>
+        </button>
+
+        {showPlanningImages && (
+          <div className="p-5 overflow-y-auto flex-1 space-y-6 animate-in fade-in duration-200">
+            {items.map((item, idx) => (
           <div 
             key={idx}
             id={`mri-card-${idx}`}
@@ -370,6 +403,8 @@ export const MriProtocolDetailCard = ({
             </div>
           </div>
         ))}
+          </div>
+        )}
       </div>
 
       {/* Full-Screen Image Modal */}
