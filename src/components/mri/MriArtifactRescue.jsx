@@ -137,10 +137,10 @@ export const MriArtifactRescue = ({ language = 'ar' }) => {
             {/* Medical Illustration Image */}
             <div 
               className="rounded-2xl overflow-hidden border border-slate-800 bg-black/95 group relative cursor-pointer"
-              onClick={() => setSelectedImageModal({ image: `/artifacts/${art.id}.png`, title: isEn ? art.nameEn : art.nameAr })}
+              onClick={() => setSelectedImageModal({ image: art.image || `/artifacts/${art.id}.png`, title: isEn ? art.nameEn : art.nameAr })}
             >
               <img 
-                src={`/artifacts/${art.id}.png`} 
+                src={art.image || `/artifacts/${art.id}.png`} 
                 alt={art.nameEn} 
                 className="w-full h-48 sm:h-64 object-contain transition-transform duration-300 group-hover:scale-[1.01]" 
                 loading="lazy"

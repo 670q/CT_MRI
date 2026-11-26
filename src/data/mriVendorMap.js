@@ -319,5 +319,103 @@ export const VENDOR_ACRONYMS = [
     hitachi: "MARS",
     descriptionEn: "Combines View Angle Tilting (VAT) with multi-spectral slice encoding (SEMAC) to correct in-plane and through-plane metal distortion.",
     descriptionAr: "دمج إمالة زوايا الرؤية مع الترميز الطيفي لتصحيح التشويه المعدني داخل الشريحة وعبرها وإظهار العظام قرب المسامير."
+  },
+
+  // 9. Diffusion, Perfusion & Cardiac Extensions
+  {
+    category: "diffusion",
+    generic: "Multi-Shot Readout-Segmented / Reduced-FOV DWI",
+    genericAr: "تصوير الانتشار متعدد الطلقات قليل التشويه",
+    siemens: "RESOLVE / ZOOMit DWI",
+    ge: "MUSE / FOCUS DWI",
+    philips: "IRIS / Multi-Shot DWI",
+    toshiba: "Multi-shot EPI",
+    hitachi: "Multi-shot DWI",
+    descriptionEn: "Segmented readout EPI minimizing geometric susceptibility distortion near skull base, IAMs, orbits, spine, and prostate.",
+    descriptionAr: "يقلل تشويه الحساسية المغناطيسية بشكل جذري في قاعدة الجمجمة والقناة السمعية والعيون والبروستاتا والعمود الفقري."
+  },
+  {
+    category: "diffusion",
+    generic: "First-Pass Stress Myocardial Perfusion",
+    genericAr: "تصوير تروية عضلة القلب بالإجهاد (First-Pass Perfusion)",
+    siemens: "SR-TrueFISP / TurboFLASH Perfusion",
+    ge: "FGRE Time-Course / FastCine Perfusion",
+    philips: "T1-TFE / bFFE Dynamic Perfusion",
+    toshiba: "Saturation-Recovery FFE",
+    hitachi: "SR-GRE Perfusion",
+    descriptionEn: "Saturation-recovery ECG-triggered ultra-fast multi-slice bolus tracking to detect inducible myocardial ischemia.",
+    descriptionAr: "تتبع سريع لمرور الصبغة تحت الإجهاد الدوائي عبر شرائح القلب القصيرة لكشف مناطق نقص التروية."
+  },
+  {
+    category: "gradient_echo",
+    generic: "Late Gadolinium Enhancement Viability (PSIR)",
+    genericAr: "تصوير حيوية عضلة القلب بالصبغة المتأخرة",
+    siemens: "PSIR TrueFISP / TurboFLASH",
+    ge: "MDE / Phase-Sensitive MDE",
+    philips: "PSIR T1-TFE",
+    toshiba: "LGE PSIR",
+    hitachi: "PSIR",
+    descriptionEn: "Phase-sensitive inversion recovery nulling normal myocardium consistently across heart-rate variations.",
+    descriptionAr: "تحديد نسيج الندبة والاحتشاء القلبي بدقة عالية مع طمس تام للعضلة السليمة."
+  },
+  {
+    category: "gradient_echo",
+    generic: "Myocardial T1 / T2* Parametric Mapping",
+    genericAr: "خرائط القياس الكمي للقلب (T1 & T2* Mapping)",
+    siemens: "MyoMaps (MOLLI / ShMOLLI / T2*)",
+    ge: "CardioMaps (MOLLI)",
+    philips: "Cardiac T1/T2 Mapping (MOLLI)",
+    toshiba: "T1/T2 Mapping",
+    hitachi: "T1 Mapping",
+    descriptionEn: "Pixel-wise T1 (diffuse fibrosis, amyloidosis) and T2* (myocardial iron overload) quantitative parametric maps.",
+    descriptionAr: "إنتاج خرائط لونية رقمية لتقييم التليف المنتشر وترسبات الحديد بالقلب والعضلة."
+  },
+  {
+    category: "fat_sat",
+    generic: "3D MR Neurography (Vascular-Suppressed STIR)",
+    genericAr: "تصوير الضفائر العصبية ثلاثي الأبعاد مع كبت الأوعية",
+    siemens: "3D STIR SPACE (DESS / Neurography)",
+    ge: "3D STIR CUBE",
+    philips: "3D NerveVIEW / SHINKEI",
+    toshiba: "3D mVox STIR",
+    hitachi: "3D isoSTIR",
+    descriptionEn: "Suppresses fat and flowing blood simultaneously to isolate brachial and lumbosacral plexus nerve roots.",
+    descriptionAr: "كبت الدهون وإشارة الدم المتدفق معاً لإبراز جذور الأعصاب في الضفيرة العضدية والقطنية العجزية بوضوح."
+  },
+  {
+    category: "volumetric_3d",
+    generic: "Free-Breathing 4D Radial Dynamic (GRASP)",
+    genericAr: "التصوير الحركي الرباعي بالتنفس الحر بدون كتم نفس",
+    siemens: "StarVIBE / GRASP-VIBE",
+    ge: "DISCO Star",
+    philips: "4D FreeBreathing THRIVE",
+    toshiba: "Stack-of-Stars VIBE",
+    hitachi: "Radial 3D",
+    descriptionEn: "Golden-angle radial stack-of-stars 3D T1 enabling dynamic liver/abdomen contrast scanning during free breathing.",
+    descriptionAr: "تصوير ديناميكي للبطن والكبد بدون حبس النفس لمرضى ضيق التنفس وكبار السن والأطفال."
+  },
+  {
+    category: "parallel_imaging",
+    generic: "Compressed Sensing & AI Reconstruction",
+    genericAr: "التصوير المضغوط وإعادة البناء بالذكاء الاصطناعي",
+    siemens: "Compressed Sensing / Deep Resolve",
+    ge: "HyperSense / AIR Recon DL",
+    philips: "Compressed SENSE / SmartSpeed",
+    toshiba: "Compressed SPEEDER / AiCE",
+    hitachi: "IP-RAPID",
+    descriptionEn: "Random k-space undersampling paired with deep learning denoising cutting scan time by 40-70% while boosting SNR.",
+    descriptionAr: "تسريع الفحوصات بنسبة 40-70% مع رفع نقاء الصورة باستخدام الشبكات العصبية والفضاء K المضغوط."
+  },
+  {
+    category: "angiography",
+    generic: "Non-Contrast ECG-Gated Lower Limb MRA",
+    genericAr: "تصوير شرايين الأطراف السفلية بدون صبغة (QISS)",
+    siemens: "QISS (Quiescent Interval Slice-Selective)",
+    ge: "Inhance DeltaFlow",
+    philips: "TRANCE / Non-Contrast MRA",
+    toshiba: "FBI (Fresh Blood Imaging)",
+    hitachi: "VASC-ASL",
+    descriptionEn: "ECG-synchronized non-contrast MRA ideal for renal impairment / CKD patients needing peripheral arterial runoff.",
+    descriptionAr: "تصوير شرايين الساقين بدون صبغة تماماً لمرضى الفشل الكلوي المزمن عبر مزامنة النبض."
   }
 ];

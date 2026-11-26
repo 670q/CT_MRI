@@ -1,5 +1,5 @@
 // Auto-generated directly from mrimaster.com
-// Total Protocols: 108, Total Images: 993
+// Total Protocols: 130, Total Images: 1157
 
 export const MRI_CATEGORIES = {
   "head_neck": {
@@ -4883,6 +4883,838 @@ export const mriProtocolsData = {
       {
         "image": "/mri-images/whole_body_dwi_4.png",
         "caption": "whole spine automatic composing sagittal scan planning"
+      }
+    ]
+  },
+  "cardiac_stress_perfusion": {
+    "key": "cardiac_stress_perfusion",
+    "title": "Cardiac Stress Perfusion",
+    "titleAr": "القلب - تروية عضلة القلب بالإجهاد",
+    "category": "cardiac",
+    "items": [
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_1.jpg",
+        "caption": "Heart anatomy"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_2.jpg",
+        "caption": "Prospective Triggering mri cardiac"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_3.jpg",
+        "caption": "Retrospective Triggering"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_4.jpg",
+        "caption": "Philips VCG electrode positioning mri"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_5.jpg",
+        "caption": "Cardiac-MRI-siemens-electrode-positioning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_6.jpg",
+        "caption": "Cardiac (heart) MRI positioning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_7.jpg",
+        "caption": "cardiac mri localiser"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_8.jpg",
+        "caption": "cardiac mri protocols and planning of localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_9.jpg",
+        "caption": "cardiac mri protocols and planning of axial dark blood"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_10.png",
+        "caption": "cardiac mri protocol dark blood axi haste"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_11.jpg",
+        "caption": "cardiac mri protocols and planning of two chamber localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_12.png",
+        "caption": "cardiac mri protocol 2ch localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_13.jpg",
+        "caption": "cardiac mri protocols and planning of short axis localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_14.png",
+        "caption": "cardiac mri protocol short axis localizer (2)"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_15.jpg",
+        "caption": "cardiac mri protocols and planning of four chamber localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_16.jpg",
+        "caption": "0060c58f - MRI Planning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_17.png",
+        "caption": "cardiac mri protocol 4ch localizer"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_18.jpg",
+        "caption": "cardiac mri protocols and planning of two chamber cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_19.png",
+        "caption": "cardiac mri protocol 2ch cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_20.jpg",
+        "caption": "cardiac mri protocols and planning of four chamber localizer (1)"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_21.png",
+        "caption": "cardiac mri protocol 4ch cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_22.jpg",
+        "caption": "cardiac mri protocols and planning of short axis cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_23.png",
+        "caption": "cardiac mri protocol short axis cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_24.jpg",
+        "caption": "cardiac mri protocols and planning of three chamber cine"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_25.jpg",
+        "caption": "left ventricular outflow tract (LVOT) CARDIAC MRI PLANNING"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_26.jpg",
+        "caption": "aortic valve cardiac mri planning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_27.jpg",
+        "caption": "Right ventricular outflow tract (RVOT) 3 point cardiac MRI planning image"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_28.png",
+        "caption": "MRI Stress Perfusion 3 out of 5 planning technique"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_29.jpg",
+        "caption": "MRI Stress Perfusion Planning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_30.png",
+        "caption": "cardiac mri protocol stress"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_31.jpg",
+        "caption": "TI scout image"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_32.jpg",
+        "caption": "Cardiac look locker planning"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_33.png",
+        "caption": "cardiac mri protocol TI scout"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_34.jpg",
+        "caption": "cardiac mri planning psir 2ch"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_35.png",
+        "caption": "cardiac mri protocol post gd psir 2ch"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_36.jpg",
+        "caption": "cardiac mri planning psir 4ch"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_37.jpg",
+        "caption": "cardiac mri protocols and planning of short axis psir"
+      },
+      {
+        "image": "/mri-images/cardiac_stress_perfusion_38.webp",
+        "caption": "inject.png"
+      }
+    ]
+  },
+  "kub": {
+    "key": "kub",
+    "title": "KUB MRI",
+    "titleAr": "تصوير الكلى والحالب والمثانة KUB",
+    "category": "abdomen",
+    "items": [
+      {
+        "image": "/mri-images/kub_1.jpg",
+        "caption": "MRI urography positioning photo"
+      },
+      {
+        "image": "/mri-images/kub_2.jpg",
+        "caption": "MRV abdomen localizer planning image"
+      },
+      {
+        "image": "/mri-images/kub_3.jpg",
+        "caption": "mrv abdomen axial image planning"
+      },
+      {
+        "image": "/mri-images/kub_4.jpg",
+        "caption": "mrv abdomen coronal 3d image planning"
+      },
+      {
+        "image": "/mri-images/kub_5.png",
+        "caption": "urinary bladder mri axial acan planning"
+      },
+      {
+        "image": "/mri-images/kub_6.png",
+        "caption": "mri kidneys planning of axial images"
+      }
+    ]
+  },
+  "female_urethra": {
+    "key": "female_urethra",
+    "title": "Female Urethra",
+    "titleAr": "الإحليل الأنثوي",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/female_urethra_1.jpg",
+        "caption": "mri female urethra positioning photo"
+      },
+      {
+        "image": "/mri-images/female_urethra_2.jpg",
+        "caption": "mri urethra localizer image"
+      },
+      {
+        "image": "/mri-images/female_urethra_3.jpg",
+        "caption": "mri urethra t2 axial image"
+      },
+      {
+        "image": "/mri-images/female_urethra_4.jpg",
+        "caption": "mri urethra t2 sagittal small fov image"
+      },
+      {
+        "image": "/mri-images/female_urethra_5.jpg",
+        "caption": "mri urethra t2 axial small fov image NEW"
+      },
+      {
+        "image": "/mri-images/female_urethra_6.jpg",
+        "caption": "mri female urethra t2 coronal small fov image"
+      },
+      {
+        "image": "/mri-images/female_urethra_7.png",
+        "caption": "inject"
+      }
+    ]
+  },
+  "anterior_abdominal_wall": {
+    "key": "anterior_abdominal_wall",
+    "title": "Anterior Abdominal Wall",
+    "titleAr": "جدار البطن الأمامي",
+    "category": "abdomen",
+    "items": [
+      {
+        "image": "/mri-images/anterior_abdominal_wall_1.jpg",
+        "caption": "MRI GYNAECOLOGY PELVIS positioning image"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_2.jpg",
+        "caption": "abdominal wall mri localizer"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_3.jpg",
+        "caption": "abdominal mri protocol and planning of coronal scans"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_4.jpg",
+        "caption": "abdominal mri protocol and planning of axial scans"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_5.jpg",
+        "caption": "abdominal wall mri protocol and planning of axial scans"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_6.jpg",
+        "caption": "abdominal wall mri protocol and planning of axial scans (1)"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_7.jpg",
+        "caption": "abdominal wall mri protocol and planning of sagittal scans"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_8.jpg",
+        "caption": "abdominal wall mri protocol and planning of sagittal scans (1)x"
+      },
+      {
+        "image": "/mri-images/anterior_abdominal_wall_9.jpg",
+        "caption": "abdominal wall mri protocol and planning of coronal scans cx"
+      }
+    ]
+  },
+  "soft_tissue_penis": {
+    "key": "soft_tissue_penis",
+    "title": "Soft Tissue Penis",
+    "titleAr": "أنسجة القضيب الرخوة",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/soft_tissue_penis_1.jpg",
+        "caption": "PENILE MRI positioning photo"
+      },
+      {
+        "image": "/mri-images/soft_tissue_penis_2.png",
+        "caption": "mri penis protocol and planning localiser image"
+      },
+      {
+        "image": "/mri-images/soft_tissue_penis_3.webp",
+        "caption": "penile mri sagittal planning"
+      },
+      {
+        "image": "/mri-images/soft_tissue_penis_4.png",
+        "caption": "mri penis coronal large FOV abdomen and pelvis planning image"
+      },
+      {
+        "image": "/mri-images/soft_tissue_penis_5.webp",
+        "caption": "penile mri axial planning"
+      },
+      {
+        "image": "/mri-images/soft_tissue_penis_6.webp",
+        "caption": "penile mri coronal planning x"
+      }
+    ]
+  },
+  "adnexal_mass_in_pregnancy": {
+    "key": "adnexal_mass_in_pregnancy",
+    "title": "Adnexal Mass in Pregnancy",
+    "titleAr": "كتل المبيض أثناء الحمل",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_1.jpg",
+        "caption": "MRI GYNAECOLOGY PELVIS positioning image"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_2.jpg",
+        "caption": "Adnexal Masses in Pregnancy MRI localiser"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_3.png",
+        "caption": "Adnexal Masses in Pregnancy MRI coronal big fov planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_4.png",
+        "caption": "Adnexal Masses in Pregnancy MRI axial big fov planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_5.jpg",
+        "caption": "Adnexal Masses in Pregnancy MRI axial SFOV planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_6.jpg",
+        "caption": "Adnexal Masses in Pregnancy MRI axial SFOV planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_7.jpg",
+        "caption": "Adnexal Masses in Pregnancy MRI coronal SFOV planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_8.jpg",
+        "caption": "Adnexal Masses in Pregnancy MRI sagittal SFOV planning and protocol"
+      },
+      {
+        "image": "/mri-images/adnexal_mass_in_pregnancy_9.jpg",
+        "caption": "Advanced MRI scanners are equipped with built-in table sensors"
+      }
+    ]
+  },
+  "placenta_mri": {
+    "key": "placenta_mri",
+    "title": "Placenta MRI",
+    "titleAr": "تصوير المشيمة",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/placenta_mri_1.jpg",
+        "caption": "MRI GYNAECOLOGY PELVIS positioning image"
+      },
+      {
+        "image": "/mri-images/placenta_mri_2.jpg",
+        "caption": "Fetal MRI planning and protocol haste localiser"
+      },
+      {
+        "image": "/mri-images/placenta_mri_3.png",
+        "caption": "mri placenta sagittal planning"
+      },
+      {
+        "image": "/mri-images/placenta_mri_4.jpg",
+        "caption": "Advanced MRI scanners are equipped with built-in table sensors"
+      },
+      {
+        "image": "/mri-images/placenta_mri_5.png",
+        "caption": "mri placenta coronal planning"
+      },
+      {
+        "image": "/mri-images/placenta_mri_6.png",
+        "caption": "mri placenta axial planning and protocol"
+      },
+      {
+        "image": "/mri-images/placenta_mri_7.jpg",
+        "caption": "mri placenta birth canal axial planning"
+      }
+    ]
+  },
+  "defecating_proctogram": {
+    "key": "defecating_proctogram",
+    "title": "Defecating Proctogram",
+    "titleAr": "تصوير التغوط الديناميكي (Proctogram)",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/defecating_proctogram_1.jpg",
+        "caption": "mri proctogram scan positioning photo"
+      },
+      {
+        "image": "/mri-images/defecating_proctogram_2.jpg",
+        "caption": "MRI PELVIS LOCALIZER"
+      },
+      {
+        "image": "/mri-images/defecating_proctogram_3.jpg",
+        "caption": "planning of mri recatal cancer sagittal"
+      },
+      {
+        "image": "/mri-images/defecating_proctogram_4.jpg",
+        "caption": "mri proctogram axial planning"
+      },
+      {
+        "image": "/mri-images/defecating_proctogram_5.jpg",
+        "caption": "mri proctogram coronal planning"
+      },
+      {
+        "image": "/mri-images/defecating_proctogram_6.jpg",
+        "caption": "mri proctogram sagittal dynamic scans planning"
+      }
+    ]
+  },
+  "psoas": {
+    "key": "psoas",
+    "title": "Psoas Muscle",
+    "titleAr": "العضلة القطنية (Psoas)",
+    "category": "pelvis",
+    "items": [
+      {
+        "image": "/mri-images/psoas_1.jpg",
+        "caption": "psoas muscle 3d image"
+      },
+      {
+        "image": "/mri-images/psoas_2.jpg",
+        "caption": "T2-weighted turbo spin-echo coronal image of psoas"
+      },
+      {
+        "image": "/mri-images/psoas_3.jpg",
+        "caption": "MRI urography positioning photo"
+      },
+      {
+        "image": "/mri-images/psoas_4.jpg",
+        "caption": "MRI psoas localizer image"
+      },
+      {
+        "image": "/mri-images/psoas_5.jpg",
+        "caption": "psoas mri coronal planning"
+      },
+      {
+        "image": "/mri-images/psoas_6.jpg",
+        "caption": "psoas mri axial planning"
+      }
+    ]
+  },
+  "lumbosacral_plexus": {
+    "key": "lumbosacral_plexus",
+    "title": "Lumbosacral Plexus",
+    "titleAr": "الضفيرة القطنية العجزية",
+    "category": "spine",
+    "items": [
+      {
+        "image": "/mri-images/lumbosacral_plexus_1.jpg",
+        "caption": "Lumbar Plexus 3D anatomy"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_2.jpg",
+        "caption": "MRI urography positioning photo"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_3.jpg",
+        "caption": "lumbar pluxues MRI localiser image"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_4.png",
+        "caption": "planning mri lumbosacral plexus sagittal scans"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_5.png",
+        "caption": "planning mri lumbosacral plexus coronal scans"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_6.png",
+        "caption": "MRI lumbosacral plexus coronal 3d scan planning"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_7.png",
+        "caption": "planning mri lumbosacral plexus axial scans"
+      },
+      {
+        "image": "/mri-images/lumbosacral_plexus_8.png",
+        "caption": "inject"
+      }
+    ]
+  },
+  "si_joints": {
+    "key": "si_joints",
+    "title": "Sacroiliac (SI) Joints",
+    "titleAr": "المفصل الحرقفي العجزي (SI Joints)",
+    "category": "spine",
+    "items": [
+      {
+        "image": "/mri-images/si_joints_1.jpg",
+        "caption": "MRI sacroiliac joint(SIJ) positioning photo"
+      },
+      {
+        "image": "/mri-images/si_joints_2.jpg",
+        "caption": "mri sacroiliac joint localizer image"
+      },
+      {
+        "image": "/mri-images/si_joints_3.jpg",
+        "caption": "MRI planning of sacroiliac joints coronal scans"
+      },
+      {
+        "image": "/mri-images/si_joints_4.jpg",
+        "caption": "MRI planning of sacroiliac joints axial scans"
+      }
+    ]
+  },
+  "lower_leg": {
+    "key": "lower_leg",
+    "title": "Lower Leg (Tibia & Fibula)",
+    "titleAr": "الساق (القصبة والشظية)",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/lower_leg_1.jpg",
+        "caption": "MRI positioning of legs"
+      },
+      {
+        "image": "/mri-images/lower_leg_2.jpg",
+        "caption": "mra legs lower leg localizer"
+      },
+      {
+        "image": "/mri-images/lower_leg_3.jpg",
+        "caption": "mri planning of lower leg coronal scans"
+      },
+      {
+        "image": "/mri-images/lower_leg_4.jpg",
+        "caption": "mri planning of lower leg axial scans"
+      },
+      {
+        "image": "/mri-images/lower_leg_5.jpg",
+        "caption": "mri planning of lower leg coronal scans right side"
+      },
+      {
+        "image": "/mri-images/lower_leg_6.jpg",
+        "caption": "mri planning of lower leg coronal scans left"
+      }
+    ]
+  },
+  "scapula": {
+    "key": "scapula",
+    "title": "Scapula",
+    "titleAr": "لوح الكتف",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/scapula_1.jpg",
+        "caption": "MRI scapula positioning"
+      },
+      {
+        "image": "/mri-images/scapula_2.jpg",
+        "caption": "Scapula MRI Localiser - MRI Planning"
+      },
+      {
+        "image": "/mri-images/scapula_3.jpg",
+        "caption": "Scapula MRI Localiser Planning - MRI Planning"
+      },
+      {
+        "image": "/mri-images/scapula_4.jpg",
+        "caption": "Scapula MRI Axial Planning Protocol and Technique - MRI Planning"
+      },
+      {
+        "image": "/mri-images/scapula_5.jpg",
+        "caption": "Scapula MRI Coronal Planning Protocol and Technique - MRI Planning"
+      },
+      {
+        "image": "/mri-images/scapula_6.jpg",
+        "caption": "Scapula MRI Sagittal Planning Protocol and Technique - MRI Planning"
+      }
+    ]
+  },
+  "shoulder_aber_view": {
+    "key": "shoulder_aber_view",
+    "title": "Shoulder ABER View",
+    "titleAr": "الكتف - وضعية ABER",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/shoulder_aber_view_1.jpg",
+        "caption": "ABER (ABduction and External Rotation) MRI view positioning"
+      },
+      {
+        "image": "/mri-images/shoulder_aber_view_2.jpg",
+        "caption": "ABER (ABduction and External Rotation) MRI view localiser image"
+      },
+      {
+        "image": "/mri-images/shoulder_aber_view_3.png",
+        "caption": "ABER ABduction and External Rotation MRI view of shoulder planning of axial oblique localiser"
+      },
+      {
+        "image": "/mri-images/shoulder_aber_view_4.jpg",
+        "caption": "ABER (ABduction and External Rotation) MRI view sagittal localiser planning"
+      },
+      {
+        "image": "/mri-images/shoulder_aber_view_5.png",
+        "caption": "ABER Abduction and External Rotation view shoulder MR arthrography protocol and planning"
+      }
+    ]
+  },
+  "humerus": {
+    "key": "humerus",
+    "title": "Humerus",
+    "titleAr": "عظم العضد",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/humerus_1.jpg",
+        "caption": "mri upper arm (humerus)positioning"
+      },
+      {
+        "image": "/mri-images/humerus_2.jpg",
+        "caption": "MRI humerus localizer"
+      },
+      {
+        "image": "/mri-images/humerus_3.png",
+        "caption": "mri upper arm (humerus) axial image planning"
+      },
+      {
+        "image": "/mri-images/humerus_4.png",
+        "caption": "mri upper arm (humerus) coronal image planning"
+      },
+      {
+        "image": "/mri-images/humerus_5.png",
+        "caption": "mri upper arm humerus sagittal image planning"
+      }
+    ]
+  },
+  "forearm": {
+    "key": "forearm",
+    "title": "Forearm",
+    "titleAr": "الساعد",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/forearm_1.jpg",
+        "caption": "forearm mri positioning"
+      },
+      {
+        "image": "/mri-images/forearm_2.jpg",
+        "caption": "forearm localizer image"
+      },
+      {
+        "image": "/mri-images/forearm_3.png",
+        "caption": "mri forearm protocol and planning of axial scans"
+      },
+      {
+        "image": "/mri-images/forearm_4.png",
+        "caption": "mri forearm protocol and planning of coronal scans"
+      },
+      {
+        "image": "/mri-images/forearm_5.jpg",
+        "caption": "mri forearm protocol and planning of sagittal scans"
+      }
+    ]
+  },
+  "hand": {
+    "key": "hand",
+    "title": "Hand MSK",
+    "titleAr": "اليد (العظام والمفاصل)",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/hand_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/hand_2.png",
+        "caption": "MRI hand localiser planning image"
+      },
+      {
+        "image": "/mri-images/hand_3.png",
+        "caption": "MRI hand axial planning"
+      },
+      {
+        "image": "/mri-images/hand_4.png",
+        "caption": "MRI hand coronal planning"
+      },
+      {
+        "image": "/mri-images/hand_5.png",
+        "caption": "MRI hand sagittal planning"
+      }
+    ]
+  },
+  "fingers": {
+    "key": "fingers",
+    "title": "Fingers",
+    "titleAr": "الأصابع",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/fingers_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/fingers_2.png",
+        "caption": "MRI hand localiser planning image"
+      },
+      {
+        "image": "/mri-images/fingers_3.png",
+        "caption": "MRI fingers axial scan planning image"
+      },
+      {
+        "image": "/mri-images/fingers_4.png",
+        "caption": "MRI fingers coronal scan planning image"
+      },
+      {
+        "image": "/mri-images/fingers_5.png",
+        "caption": "MRI fingers sagittal scan planning image"
+      }
+    ]
+  },
+  "thumb": {
+    "key": "thumb",
+    "title": "Thumb",
+    "titleAr": "الإبهام",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/thumb_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/thumb_2.png",
+        "caption": "MRI thumb localiser image"
+      },
+      {
+        "image": "/mri-images/thumb_3.jpg",
+        "caption": "MRI thumb localiser planning image"
+      },
+      {
+        "image": "/mri-images/thumb_4.png",
+        "caption": "MRI thumb axial scan small FOV planning"
+      },
+      {
+        "image": "/mri-images/thumb_5.png",
+        "caption": "MRI thumb coronal scan small FOV planning"
+      },
+      {
+        "image": "/mri-images/thumb_6.png",
+        "caption": "MRI thumb sagittal scan small FOV planning"
+      }
+    ]
+  },
+  "index_finger": {
+    "key": "index_finger",
+    "title": "Index Finger",
+    "titleAr": "إصبع السبابة",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/index_finger_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/index_finger_2.png",
+        "caption": "MRI thumb localiser image"
+      },
+      {
+        "image": "/mri-images/index_finger_3.png",
+        "caption": "MRI index finger axial scan planning image"
+      },
+      {
+        "image": "/mri-images/index_finger_4.png",
+        "caption": "MRI index finger coronal scan planning image"
+      },
+      {
+        "image": "/mri-images/index_finger_5.png",
+        "caption": "MRI index finger sagittal scan planning image"
+      }
+    ]
+  },
+  "middle_finger": {
+    "key": "middle_finger",
+    "title": "Middle Finger",
+    "titleAr": "الإصبع الوسطى",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/middle_finger_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/middle_finger_2.png",
+        "caption": "MRI thumb localiser image"
+      },
+      {
+        "image": "/mri-images/middle_finger_3.png",
+        "caption": "MRI middle finger protocol and planning of axial SFOV scans"
+      },
+      {
+        "image": "/mri-images/middle_finger_4.png",
+        "caption": "MRI middle finger protocol and planning of coronal SFOV scans"
+      },
+      {
+        "image": "/mri-images/middle_finger_5.png",
+        "caption": "MRI middle finger protocol and planning of sagittal SFOV scans"
+      }
+    ]
+  },
+  "ring_finger": {
+    "key": "ring_finger",
+    "title": "Ring Finger",
+    "titleAr": "إصبع البنصر",
+    "category": "msk",
+    "items": [
+      {
+        "image": "/mri-images/ring_finger_1.jpg",
+        "caption": "MRI hand positioning"
+      },
+      {
+        "image": "/mri-images/ring_finger_2.png",
+        "caption": "MRI thumb localiser image"
+      },
+      {
+        "image": "/mri-images/ring_finger_3.png",
+        "caption": "MRI ring finger axial scan planning image"
+      },
+      {
+        "image": "/mri-images/ring_finger_4.png",
+        "caption": "MRI ring finger coronal scan planning image"
+      },
+      {
+        "image": "/mri-images/ring_finger_5.png",
+        "caption": "MRI ring finger sagittal scan planning image"
       }
     ]
   }

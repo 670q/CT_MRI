@@ -1,7 +1,7 @@
 /**
  * Master Clinical Database for MRI Master Protocols & 3-Plane Slice Planning
  * Rigorously modeled after mrimaster.com clinical methodology and Board-Certified standards.
- * Covers all 108 MRI protocols across 9 anatomical categories.
+ * Covers all 130 MRI protocols across 9 anatomical categories.
  */
 
 export const MRI_FLAGSHIP_PROTOCOLS = {
@@ -1221,6 +1221,294 @@ export const MRI_FLAGSHIP_PROTOCOLS = {
         actionAr: "قياس قيمة ADC الكمية: ارتفاع قيمة ADC يدل على موت الخلايا السرطانية واستجابتها الإيجابية للعلاج الكيميائي."
       }
     ]
+  },
+
+  "cardiac_stress_perfusion": {
+    key: "cardiac_stress_perfusion",
+    title: "Cardiac Stress Perfusion MRI",
+    titleAr: "بروتوكول تروية عضلة القلب بالإجهاد الدوائي (Stress Perfusion)",
+    category: "cardiac",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "تُحقن مادة الإجهاد (Adenosine 140 mcg/kg/min لمدة 3-4 دقائق أو Regadenoson بجرعة واحدة) تحت مراقبة ECG وضغط الدم مع تجهيز Aminophylline كمضاد فوري، ثم تُلتقط 3 شرائح محور قصير (قاعدة، وسط، قمة) في كل نبضة فور حقن 0.05-0.075 mmol/kg من الجادولينيوم.",
+      pearlEn: "Acquire 3 short-axis slices (basal, mid, apical) per heartbeat using saturation-recovery GRE/TrueFISP during adenosine (140 mcg/kg/min) or regadenoson vasodilator stress, keeping rest perfusion and LGE PSIR separated by 10 minutes."
+    },
+    setup: {
+      patientPosition: {
+        en: "Supine, Head First, arms at sides, dual 18-20G IV lines (one for adenosine/regadenoson, opposite arm for Gadolinium)",
+        ar: "استلقاء ظهري، الرأس أولاً، وريدان 18-20G (خط للـ Adenosine/Regadenoson والذراع المقابلة للصبغة)"
+      },
+      coil: {
+        en: "Dedicated Cardiac Phased Array Coil + Vector ECG (VCG) 4-lead gating",
+        ar: "ملف القلب المخصص متعدد القنوات مع أقطاب تخطيط القلب الـ VCG"
+      },
+      landmark: {
+        en: "Mid-Sternum (Level of 4th Intercostal Space)",
+        ar: "منتصف عظم القص / مستوى الفراغ الوربي الرابع"
+      },
+      preparations: {
+        en: "STRICT 24-hour abstention from caffeine/theophylline/chocolate! Crash cart and Aminophylline 250mg IV immediately available.",
+        ar: "منع تام للكافيين (القهوة والشاي والشوكولاتة) قبل الفحص بـ 24 ساعة! تجهيز عربة الطوارئ ومضاد الأمينوفيلين."
+      },
+      gating: {
+        en: "Prospective/Retrospective Vector ECG gating + end-expiratory breath-hold during first-pass contrast bolus (40-60 heartbeats).",
+        ar: "مزامنة ECG قلبية مع كتم نفس أو تنفس هادئ خلال الدقائق الأولى لمرور الصبغة (40-60 نبضة)."
+      }
+    },
+    angulationRules: {
+      axial: {
+        en: "Plan Vertical Long Axis (2-Chamber), Horizontal Long Axis (4-Chamber), and Short Axis stacks cleanly from mitral annulus to LV apex.",
+        ar: "تخطيط المحور الطويل العمودي (غرفتين) والأفقي (4 غرف) ثم المحور القصير من الصمام التاجي إلى قمة القلب."
+      },
+      coronal: {
+        en: "LVOT (3-Chamber) views perpendicular to aortic root and anterior mitral leaflet.",
+        ar: "مقطع مخرج البطين الأيسر (3 غرف) لتقييم الصمام الأبهري."
+      },
+      sagittal: {
+        en: "3 First-Pass Perfusion short-axis slices evenly spaced at Basal (25%), Mid (50%), and Apical (75%) LV myocardium.",
+        ar: "3 شرائح محور قصير للتروية موزعة بالتساوي على القاعدة والمنتصف والقمة."
+      }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Subendocardial Hypoperfusion Defect vs Dark-Rim Artifact",
+        conditionAr: "تمييز نقص التروية الحقيقي عن عيب الحافة الداكنة (Dark-Rim)",
+        sequenceToAdd: "Rest Perfusion + Late Gadolinium Enhancement (LGE PSIR)",
+        actionEn: "True ischemia follows a coronary territory (LAD/LCX/RCA), persists >5 heartbeats, and matches/exceeds scar on LGE; dark-rim artifact disappears within 2-3 heartbeats.",
+        actionAr: "نقص التروية الحقيقي يستمر لأكثر من 5 نبضات ويتطابق مع تروية شريان تاجي، بينما يختفي عيب Dark-Rim خلال نبضتين إلى ثلاث."
+      }
+    ]
+  },
+
+  "si_joints": {
+    key: "si_joints",
+    title: "Sacroiliac (SI) Joints MRI Protocol",
+    titleAr: "بروتوكول المفصل الحرقفي العجزي (التهاب الفقار اللاصق)",
+    category: "spine",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "يجب إمالة المقاطع الإكليلية المائلة (Oblique Coronal) بدقة لتكون موازية للمحور الطويل لعظم العجز (S1-S3) على المقطع السهمي، لأن المقاطع المستقيمة العادية تفشل في إظهار المفصلين بالكامل وتشوه وذمة النخاع.",
+      pearlEn: "Strictly angle Oblique Coronal slices parallel to the dorsal surface of S1-S3 sacrum on sagittal localizer, and Oblique Axial slices perpendicular to them (ASAS Spondyloarthritis Criteria)."
+    },
+    setup: {
+      patientPosition: { en: "Supine, Feet First, bolster under knees", ar: "استلقاء ظهري، القدمين أولاً مع وسادة تحت الركبتين" },
+      coil: { en: "Spine Matrix + Anterior Pelvis Body Coil", ar: "ملف العمود الفقري الخلفي مع ملف الحوض الأمامي" },
+      landmark: { en: "Midway between Iliac Crest and Pubic Symphysis (S1-S2)", ar: "منتصف المسافة بين عرف الحرقفة وعظم العانة" },
+      preparations: { en: "No fasting needed. Presaturation band anteriorly across bowel.", ar: "لا يلزم صيام. وضع حزام كبت أمامي لحركة الأمعاء." },
+      gating: { en: "None required.", ar: "لا يلزم." }
+    },
+    angulationRules: {
+      coronal: { en: "Oblique Coronal: Parallel to line connecting posterior cortex of S1 to S3 on sagittal localizer. Include entire sacrum and both SI joints.", ar: "مائل إكليلي: موازٍ للسطح الخلفي للفقرات العجزية S1-S3 على المقطع السهمي، يشمل المفصلين بالكامل." },
+      axial: { en: "Oblique Axial: Strictly perpendicular to the Oblique Coronal block from L5-S1 down through inferior SI joint recess.", ar: "مائل محوري: عمودي تماماً على المقطع الإكليلي المائل من L5-S1 حتى أسفل المفصل." },
+      sagittal: { en: "Wide sagittal localizer covering L4 to coccyx for exact sacral slope measurement.", ar: "مقطع سهمي استطلاعي لإظهار زاوية انحناء العجز." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Suspected Infectious Sacroiliitis vs Inflammatory ASAS Sacroiliitis",
+        conditionAr: "التمييز بين الالتهاب الروماتيزمي والتهاب المفصل الصديدي البكتيري",
+        sequenceToAdd: "Axial & Oblique Coronal T1 Fat-Sat + Gd Contrast + DWI",
+        actionEn: "Unilateral thick periarticular soft-tissue abscess or fluid rim enhancement indicates infectious sacroiliitis requiring urgent contrast.",
+        actionAr: "إضافة الصبغة الوريدية عند الاشتباه بخراج أو التهاب بكتيري أحادي الجانب في المفصل."
+      }
+    ]
+  },
+
+  "lumbosacral_plexus": {
+    key: "lumbosacral_plexus",
+    title: "Lumbosacral Plexus (MR Neurography)",
+    titleAr: "الضفيرة القطنية العجزية وتصوير الأعصاب الطرفية",
+    category: "spine",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "استخدم تسلسل 3D STIR SPACE / NerveVIEW الإكليلي مع كبت إشارة الأوعية الدموية للحصول على صور MIP مجسمة لجذور الأعصاب من L1 حتى الأعصاب الوركية في الفخذ.",
+      pearlEn: "Use vascular-suppressed 3D STIR SPACE / SHINKEI (MR Neurography) in coronal plane to generate thick-slab MIPs tracking nerve roots from L1-S4 through sciatic notch."
+    },
+    setup: {
+      patientPosition: { en: "Supine, Feet First", ar: "استلقاء ظهري، القدمين أولاً" },
+      coil: { en: "Spine Array + Torso Body Coil covering L1 to lesser trochanter", ar: "ملف العمود الفقري + ملف الحوض من الفقرة L1 حتى أعلى الفخذ" },
+      landmark: { en: "Iliac Crest / L4-L5 level", ar: "مستوى عرف الحرقفة L4-L5" },
+      preparations: { en: "Antispasmodic optional. Presat band across anterior abdomen.", ar: "شريط كبت أمامي لحركة الأمعاء، وتنبيه المريض بالثبات التام." },
+      gating: { en: "None required.", ar: "لا يلزم." }
+    },
+    angulationRules: {
+      coronal: { en: "Coronal large-FOV 3D STIR & T1 from L1 vertebral body through greater sciatic foramen and proximal sciatic nerves.", ar: "إكليلي كبير من L1 حتى المدوّر الصغير بعظم الفخذ لإظهار كامل الضفيرة والعصب الوركي." },
+      axial: { en: "Axial T1 & T2 Fat-Sat from L4 through ischial tuberosities (sciatic notch level).", ar: "محوري T1 و T2 مع كبت الشحم من L4 حتى مخرج العصب الوركي." },
+      sagittal: { en: "Sagittal T2 lumbar spine covering exit foramina bilaterally.", ar: "سهمي T2 يشمل مخارج الجذور العصبية يميناً ويساراً." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Plexus Mass / Schwannoma / Neurofibroma vs Demyelinating CIDP",
+        conditionAr: "تقييم أورام الأعصاب أو الاعتلال المزيل للميالين",
+        sequenceToAdd: "Coronal & Axial 3D T1 VIBE + Gd Contrast + DWI",
+        actionEn: "Contrast differentiates solid enhancing neurogenic tumors from non-enhancing fascicular hypertrophy.",
+        actionAr: "حقن الصبغة يفرق بين أورام غمد العصب والتضخم الالتهابي المزمن."
+      }
+    ]
+  },
+
+  "placenta_mri": {
+    key: "placenta_mri",
+    title: "Placenta Accreta Spectrum (PAS) MRI",
+    titleAr: "بروتوكول المشيمة الملتصقة (Placenta MRI)",
+    category: "pelvis",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "يُحظر تماماً إعطاء صبغة الجادولينيوم للحامل! اعتمد على تسلسلات الطلقة الواحدة HASTE / SSFSE و TrueFISP / FIESTA في المستويات الثلاثة عمودياً على جدار الرحم الملامس للمشيمة.",
+      pearlEn: "DO NOT administer Gadolinium contrast during pregnancy! Plan orthogonal Axial, Coronal, and Sagittal HASTE/TrueFISP blocks perpendicular to the placental-myometrial interface, with moderately distended urinary bladder."
+    },
+    setup: {
+      patientPosition: { en: "Supine or Left Lateral Decubitus (to prevent IVC aortocaval compression in late pregnancy)", ar: "استلقاء ظهري أو مائل لليسار قليلاً لتجنب ضغط الرحم على الوريد الأجوف السفلي" },
+      coil: { en: "Large Body Torso Phased Array Coil", ar: "ملف البطن والحوض المصفوفي" },
+      landmark: { en: "Anterior Superior Iliac Spine (ASIS) / Mid-uterus", ar: "منتصف الرحم ومستوى الشوكة الحرقفية الأمامية" },
+      preparations: { en: "1.5T preferred (lower SAR, less dielectric shading). Moderately full bladder helps delineate bladder dome invasion!", ar: "يفضل جهاز 1.5 تسلا. امتلاء جزئي للمثانة مهم جداً لتقييم غزو المشيمة لجدار المثانة." },
+      gating: { en: "Free-breathing Ultra-fast Single-shot HASTE + TrueFISP.", ar: "تنفس طبيعي مع تسلسلات سريعة أحادية النبضة HASTE." }
+    },
+    angulationRules: {
+      sagittal: { en: "True midline sagittal HASTE + TrueFISP covering entire uterus, placenta, cervix, and bladder interface.", ar: "سهمي كامل للرحم والمشيمة وعنق الرحم والتصاقها بالمثانة." },
+      coronal: { en: "Oblique Coronal perpendicular to placental-uterine wall attachment site.", ar: "إكليلي عمودي على موضع التصاق المشيمة بجدار الرحم." },
+      axial: { en: "Oblique Axial perpendicular to lower uterine segment and bladder dome.", ar: "محوري عمودي على الجزء السفلي من الرحم وسقف المثانة." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Suspected Placenta Percreta Invading Bladder Wall",
+        conditionAr: "اشتباه اختراق المشيمة لجدار المثانة البولية",
+        sequenceToAdd: "High-Res Orthogonal Sagittal/Axial TrueFISP + DWI b=800",
+        actionEn: "Look for T2 dark intraplacental bands, myometrial thinning <1mm, focal exophytic bulging, and interrupted bladder wall chemical shift line.",
+        actionAr: "تأكيد اختراق الجدار بإضافة مقاطع TrueFISP دقيقة ودراسة انتشار DWI بدون صبغة."
+      }
+    ]
+  },
+
+  "defecating_proctogram": {
+    key: "defecating_proctogram",
+    title: "MR Defecating Proctogram (Pelvic Floor)",
+    titleAr: "تصوير قاع الحوض والتغوط الديناميكي (Proctogram)",
+    category: "pelvis",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "يُحقن 150-200 مل من جل السونار الدافئ في المستقيم قبل الفحص. التقط تسلسل TrueFISP / FIESTA ديناميكياً في المقطع السهمي الأوسط أثناء الراحة، الشد (Squeeze)، الدفع (Strain/Valsalva)، والتفريغ الفعلي.",
+      pearlEn: "Instill 150-200 mL warm ultrasound gel per rectum. Run midsagittal dynamic TrueFISP/FIESTA (1 frame/s for 45-60s) during rest, Kegel squeeze, Valsalva strain, and active evacuation on protective waterproof pad."
+    },
+    setup: {
+      patientPosition: { en: "Supine, knees slightly flexed over pad with waterproof protective sheet", ar: "استلقاء ظهري مع ثني بسيط للركبتين فوق غطاء ماص مقاوم للماء" },
+      coil: { en: "Pelvic Phased Array Coil", ar: "ملف الحوض المصفوفي" },
+      landmark: { en: "Symphysis Pubis", ar: "عظم العانة" },
+      preparations: { en: "Empty bladder, instill 150-200 mL rectal ultrasound gel (optionally 20 mL vaginal gel). Coach patient through Squeeze/Strain/Evacuate commands.", ar: "حقن جل في المستقيم وتدريب المريض مسبقاً على أوامر الشد والإفراغ أثناء التصوير." },
+      gating: { en: "Interactive Dynamic Real-time Cine during evacuation.", ar: "تصوير سينمائي ديناميكي حي أثناء محاولة التغوط." }
+    },
+    angulationRules: {
+      sagittal: { en: "True Midsagittal dynamic slice spanning from pubic symphysis anteriorly to sacrococcygeal joint posteriorly (PCL line reference).", ar: "شريحة سهمية وسطية دقيقة تربط عظم العانة بالعصعص (خط PCL المرجعي)." },
+      axial: { en: "Static high-res Axial T2 TSE for puborectalis sling and anal sphincter anatomy.", ar: "محوري T2 ثابت لتقييم العضلة الرافعة للشرج والعضلة العاصرة." },
+      coronal: { en: "Coronal T2 TSE across levator ani muscle symmetry.", ar: "إكليلي T2 لتقييم تماثل عضلات قاع الحوض." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Rectocele / Intussusception / Enterocele Prolapse",
+        conditionAr: "تقييم هبوط المثانة أو المستقيم أو الأمعاء (Enterocele)",
+        sequenceToAdd: "Repeat Midsagittal Dynamic Cine until complete rectal evacuation",
+        actionEn: "Measure H-line, M-line, and organ descent below Pubococcygeal Line (PCL) at maximum strain/evacuation.",
+        actionAr: "تكرار الحركة السينمائية حتى الإفراغ الكامل لقياس خط الهبوط نسبةً لخط PCL."
+      }
+    ]
+  },
+
+  "shoulder_aber_view": {
+    key: "shoulder_aber_view",
+    title: "Shoulder ABER View (MR Arthrography)",
+    titleAr: "الكتف: وضعية التبعيد والدوران الخارجي (ABER View)",
+    category: "msk",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "يضع المريض راحة يده خلف رأسه (تبعيد الذراع ودوران خارجي)؛ ثم يُخطط المقطع المائل المحوري على الكورونال بمحاذاة محور عظم العضد لشد الرباط الحقاني العضدي السفلي وكشف تمزق Perthes / Bankart.",
+      pearlEn: "Position patient with palm behind head/neck (ABduction and External Rotation). Angle Oblique Axial slices parallel to the humeral shaft on coronal localizer to tension IGHLC and uncover subtle Perthes or anterior labral lesions."
+    },
+    setup: {
+      patientPosition: { en: "Supine, arm abducted 130° and externally rotated with hand behind head", ar: "استلقاء ظهري مع تبعيد الذراع ووضع راحة اليد خلف الرأس (ABER)" },
+      coil: { en: "Medium Flex Coil wrapped around axilla/shoulder", ar: "ملف مرن (Flex Coil) ملفوف حول مفصل الكتف" },
+      landmark: { en: "Glenohumeral Joint", ar: "مفصل الكتف" },
+      preparations: { en: "Usually performed as final add-on after intra-articular MR Arthrogram injection. Support elbow with sponge for comfort.", ar: "غالباً يضاف بعد حقن الصبغة المفصلية مع دعم الكوع بوسادة مريحة." },
+      gating: { en: "None required.", ar: "لا يلزم." }
+    },
+    angulationRules: {
+      axial: { en: "Oblique Axial along humeral shaft axis seen on coronal localizer (cuts glenoid perpendicular to anteroinferior labrum).", ar: "محوري مائل بمحاذاة جسم عظم العضد يقطع الحقاني عمودياً على الشفا الأمامي السفلي." },
+      coronal: { en: "Coronal localizer verifying humeral head-shaft axis in abducted position.", ar: "استطلاعي إكليلي لتحديد محور عظم العضد أثناء الرفع." },
+      sagittal: { en: "Optional sagittal localizer.", ar: "استطلاعي سهمي." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Subtle PASTA Lesion or Anteroinferior Bankart / Perthes Tear",
+        conditionAr: "تمزق الشفا الأمامي السفلي (Bankart/Perthes) أو الوتر الجزئي",
+        sequenceToAdd: "Oblique Axial T1 Fat-Sat + PD Fat-Sat in ABER",
+        actionEn: "Compare standard neutral axial T1 FS with ABER view where contrast tracks directly under the peeled periosteal labrum.",
+        actionAr: "تسمح الوضعية بدخول الصبغة تحت الشفا الممزق بشكل أوضح من الوضعية المحايدة."
+      }
+    ]
+  },
+
+  "hand": {
+    key: "hand",
+    title: "Hand MSK High-Resolution MRI",
+    titleAr: "بروتوكول اليد الكامل (العظام والمفاصل والأوتار)",
+    category: "msk",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "استخدم وضعية 'سوبرمان' (انبطاح البطن مع مد الذراع فوق الرأس) أو استلقاء ظهري واليد بجانب الجسم في ملف صغير (8-16 قناة). ثبّت الأصابع برمل خفيف واستخدم حقل رؤية 120-140 مم وبسماكة 2.5 مم.",
+      pearlEn: "Position hand in Superman (prone, arm overhead) or supine at side using a dedicated Wrist/Hand or Micro coil. Keep FOV tight (120-140 mm) and slice thickness 2.5 mm across metacarpals and MCP/IP joints."
+    },
+    setup: {
+      patientPosition: { en: "Prone (Superman) with arm extended at isocenter, or Supine with arm at side", ar: "انبطاح (سوبرمان) مع وضع اليد في منتصف المغناطيس لتفادي تشويه الأطراف" },
+      coil: { en: "Dedicated Hand/Wrist 16-Channel or Small Flex Coil", ar: "ملف اليد/الرسغ المخصص متعدد القنوات" },
+      landmark: { en: "3rd Metacarpophalangeal (MCP) Joint", ar: "منتصف مشط اليد والمفاصل السنعية السلامية" },
+      preparations: { en: "Tape or place light sandbag over fingers to prevent tremor. Use vitamin E capsule over palpable lump.", ar: "تثبيت الأصابع برفق ووضع علامة كبسولة فيتامين E فوق أي تورم محسوس." },
+      gating: { en: "None required.", ar: "لا يلزم." }
+    },
+    angulationRules: {
+      axial: { en: "Strictly perpendicular to metacarpal shafts covering from carpal row to DIP joints.", ar: "عمودي على عظام مشط اليد من الرسغ حتى مفاصل الأصابع." },
+      coronal: { en: "Parallel to dorsal aspect of 2nd-5th metacarpal heads.", ar: "موازٍ لظهر عظام المشط من الثاني للخامس." },
+      sagittal: { en: "Parallel to axis of suspected affected digit / metacarpal.", ar: "موازٍ لمحور الإصبع أو العظم المصاب." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Rheumatoid Synovitis / Soft Tissue Mass / Infection",
+        conditionAr: "التهاب المفاصل الروماتويدي أو الأورام أو الخراجات",
+        sequenceToAdd: "Axial & Coronal T1 Fat-Sat + Gd Contrast",
+        actionEn: "Always obtain Pre- and Post-contrast T1 Fat-Sat in identical plane for synovial enhancement or abscess rim.",
+        actionAr: "إضافة T1 Fat-Sat قبل وبعد الصبغة لتشخيص التهاب الغشاء الزليلي والأكياس."
+      }
+    ]
+  },
+
+  "thumb": {
+    key: "thumb",
+    title: "Thumb High-Resolution Small-FOV MRI",
+    titleAr: "بروتوكول الإبهام دقيق الدقة (أربطة السكيّر / Stener)",
+    category: "msk",
+    boardReview: {
+      specialist: "MRI Board Certified Clinical Specialist",
+      pearlAr: "الإبهام يميل بزاوية ~45 درجة مقارنة ببقية الأصابع! لذلك لا تخطط المقاطع الإكليلية موازية لكف اليد، بل مائلة بمحاذاة عظمَي السمسمان (Sesamoids) عند قاعدة سلامي الإبهام لاكتشاف تمزق الرباط الزندي Stener Lesion.",
+      pearlEn: "The thumb lies rotated ~45° relative to the palm! Plan True Thumb Coronal slices strictly parallel to the line connecting the two MCP sesamoid bones to depict the Ulnar Collateral Ligament (UCL) and Stener lesions accurately."
+    },
+    setup: {
+      patientPosition: { en: "Prone (Superman) or Supine with thumb centered in Small Ring/Micro Coil", ar: "وضع الإبهام في منتصف ملف صغير أو ملف أصابع/رسغ" },
+      coil: { en: "Small Microscopy Coil / High-Res Wrist Coil", ar: "ملف دقيق صغير الحجم (Small Loop / Wrist Coil)" },
+      landmark: { en: "1st MCP Joint (Thumb Base)", ar: "قاعدة الإبهام (المفصل السنعي السلامي الأول)" },
+      preparations: { en: "Immobilize thumb securely; FOV 80-100 mm with thin 2.0 mm slices.", ar: "تثبيت الإبهام تماماً؛ حقل رؤية صغير 80-100 مم وبسماكة 2 مم." },
+      gating: { en: "None required.", ar: "لا يلزم." }
+    },
+    angulationRules: {
+      axial: { en: "Perpendicular to proximal phalanx & 1st metacarpal shaft from CMC joint through thumb tip.", ar: "عمودي على سلامي الإبهام من المفصل الرسغي السنعي حتى طرف الإبهام." },
+      coronal: { en: "Parallel to line connecting medial & lateral sesamoid bones of 1st MCP joint on axial view.", ar: "موازٍ للخط الواصل بين عظمتي السمسمان على المقطع المحوري (لإظهار الرباط الزندي UCL)." },
+      sagittal: { en: "Perpendicular to true thumb coronal plane along thumb axis.", ar: "عمودي على المستوى الإكليلي الحقيقي للإبهام." }
+    },
+    pathologyTriggers: [
+      {
+        conditionEn: "Gamekeeper's / Skier's Thumb UCL Tear & Stener Lesion",
+        conditionAr: "تمزق الرباط الجانبي الزندي لإبهام المتزلجين (Stener Lesion)",
+        sequenceToAdd: "True Oblique Coronal Thin-Slice PD Fat-Sat + T1 SE (2mm)",
+        actionEn: "Look for adductor pollicis aponeurosis interposed between retracted torn UCL stump ('yo-yo on a string' sign).",
+        actionAr: "البحث عن التفاف نهاية الرباط الممزق فوق وتر العضلة المقربة للإبهام."
+      }
+    ]
   }
 };
 
@@ -1472,6 +1760,42 @@ function parseSequenceFromCaption(caption, category, idx) {
     philips = "Survey";
     params = { tr: "15 ms", te: "5 ms", fov: "350 mm", thk: "8 mm" };
     purpose = "Rapid 3-plane anatomical orientation to prescribe diagnostic blocks.";
+  } else if (cap.includes("perfusion") || cap.includes("stress")) {
+    nameEn = "First-Pass Dynamic Stress Perfusion";
+    nameAr = "تروية عضلة القلب بالإجهاد الدوائي (First-Pass)";
+    generic = "ECG-Triggered Saturation-Recovery Perfusion";
+    siemens = "SR-TrueFISP / TurboFLASH Perfusion";
+    ge = "FGRE Time-Course Perfusion";
+    philips = "T1-TFE Dynamic Perfusion";
+    params = { tr: "2.6 ms", te: "1.2 ms", fov: "360 mm", thk: "8.0 mm" };
+    purpose = "Subendocardial inducible ischemia detection across 3 short-axis slices per heartbeat.";
+  } else if (cap.includes("cine") || cap.includes("trufi") || cap.includes("fiesta") || cap.includes("bffe") || cap.includes("proctogram") || cap.includes("dynamic")) {
+    nameEn = "Dynamic Cine / Balanced SSFP (TrueFISP)";
+    nameAr = "التصوير السينمائي الحركي المتوازن (Cine TrueFISP)";
+    generic = "Balanced Steady-State Free Precession";
+    siemens = "TrueFISP Cine";
+    ge = "FIESTA Cine";
+    philips = "bFFE Cine";
+    params = { tr: "3.2 ms", te: "1.5 ms", fov: "320 mm", thk: "6.0 mm" };
+    purpose = "Real-time motion capture, cardiac function, placental margin, or pelvic floor descent.";
+  } else if (cap.includes("haste") || cap.includes("ssfse") || cap.includes("single shot")) {
+    nameEn = "Single-Shot Fast Spin Echo (HASTE)";
+    nameAr = "صدى الغزل بطلقة واحدة فائقة السرعة (HASTE)";
+    generic = "Single-Shot T2 TSE (<1s/slice)";
+    siemens = "HASTE";
+    ge = "SSFSE";
+    philips = "Single-Shot TSE";
+    params = { tr: "1200 ms", te: "90 ms", fov: "360 mm", thk: "4.0 mm" };
+    purpose = "Motion-immune fetal, placental, biliary, and pelvic floor soft-tissue imaging.";
+  } else if (cap.includes("aber")) {
+    nameEn = "ABER View Oblique Axial";
+    nameAr = "وضعية ABER المائلة للشفا المفصلي بالكتف";
+    generic = "ABER Oblique Axial PD / T1 Fat-Sat";
+    siemens = "T1 TSE FatSat ABER";
+    ge = "T1 FSE FatSat ABER";
+    philips = "T1 TSE SPIR ABER";
+    params = { tr: "650 ms", te: "14 ms", fov: "160 mm", thk: "3.0 mm" };
+    purpose = "Tensioned anteroinferior labrum evaluation (Perthes / Bankart / PASTA tears).";
   } else if (cap.includes("axial")) {
     if (cap.includes("t1")) {
       nameEn = "Axial T1 Spin Echo";
@@ -1623,7 +1947,7 @@ function parseSequenceFromCaption(caption, category, idx) {
 
 /**
  * Universal Master Clinical Resolver
- * Guarantees 100% Board-Certified data for ALL 108 protocols in medical-protocols
+ * Guarantees 100% Board-Certified data for ALL 130 protocols in medical-protocols
  */
 export function getProtocolClinicalData(protocol) {
   if (!protocol) return null;
@@ -1642,7 +1966,7 @@ export function getProtocolClinicalData(protocol) {
     return flagship;
   }
 
-  // 2. Dynamic High-Fidelity Clinical Generation for any of the other 108 protocols
+  // 2. Dynamic High-Fidelity Clinical Generation for any of the other 130 protocols
   const cat = protocol.category || "head_neck";
   const profile = CATEGORY_PROFILES[cat] || CATEGORY_PROFILES.head_neck;
   const items = protocol.items || [];
